@@ -10,7 +10,7 @@ type Cron interface {
 	Run(ctx context.Context) error
 }
 
-type action func() error
+type action func(ctx context.Context) error
 
 type cron struct {
 	action  action
@@ -32,20 +32,23 @@ action action,
 
 func (c *cron) Run(ctx context.Context) error {
 	for {
-		glog.V(4).Infof("backup cleanup started")
-		if err := c.action(); err != nil {
+		glog.V(4).Infof("run cron action started")
+		if err := c.action(ctx); err != nil {
+			glog.V(2).Infof("action failed -> exit")
 			return err
 		}
-		glog.V(4).Infof("backup cleanup finished")
-
+		glog.V(4).Infof("run cron action finished")
 		if c.oneTime {
-			glog.V(3).Infof("one-time => exit")
+			glog.V(2).Infof("one-time => exit")
 			return nil
 		}
-
-		glog.V(4).Infof("wait %v", c.wait)
-		time.Sleep(c.wait)
-		glog.V(4).Infof("sleep done")
+		select {
+		case <-ctx.Done():
+			glog.V(2).Infof("context done -> exit")
+			return nil
+		case <-time.After(c.wait):
+			glog.V(4).Infof("sleep completed")
+		}
 	}
 	return nil
 }
