@@ -1,10 +1,10 @@
 package cron
 
 import (
-	"testing"
-	. "github.com/bborbe/assert"
-	"time"
 	"context"
+	. "github.com/bborbe/assert"
+	"testing"
+	"time"
 )
 
 func TestRun(t *testing.T) {
@@ -30,8 +30,7 @@ func TestRunContinuous(t *testing.T) {
 	})
 	ctx, cancel := context.WithCancel(context.Background())
 	go func() {
-		t := time.NewTimer(10 * time.Millisecond)
-		<-t.C
+		time.Sleep(10 * time.Millisecond)
 		cancel()
 	}()
 	err := b.Run(ctx)
