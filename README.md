@@ -4,7 +4,7 @@ Run something over and over again.
 
 ## Continuous integration
 
-[Jenkins](https://www.benjamin-borbe.de/jenkins/job/Go-Cron/)
+[Jenkins](https://jenkins.benjamin-borbe.de/job/Go-Cron/)
 
 ## Copyright and license
 
