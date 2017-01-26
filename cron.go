@@ -1,9 +1,9 @@
 package cron
 
 import (
+	"context"
 	"github.com/golang/glog"
 	"time"
-	"context"
 )
 
 type Cron interface {
@@ -19,9 +19,9 @@ type cron struct {
 }
 
 func New(
-oneTime bool,
-wait time.Duration,
-action action,
+	oneTime bool,
+	wait time.Duration,
+	action action,
 ) *cron {
 	c := new(cron)
 	c.action = action
@@ -46,9 +46,14 @@ func (c *cron) Run(ctx context.Context) error {
 		case <-ctx.Done():
 			glog.V(2).Infof("context done -> exit")
 			return nil
-		case <-time.After(c.wait):
+		case <-c.sleep():
 			glog.V(4).Infof("sleep completed")
 		}
 	}
 	return nil
+}
+
+func (c *cron) sleep() <-chan time.Time {
+	glog.V(0).Infof("sleep for %v", c.wait)
+	return time.After(c.wait)
 }
