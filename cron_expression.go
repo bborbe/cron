@@ -7,15 +7,16 @@ import (
 )
 
 type cronExpression struct {
-	action     action
-	expression string
+	ext    string
+	action action
 }
 
 func NewExpressionCron(
-	expression string,
+	ext string,
 	action action,
-) *cronWait {
-	c := new(cronWait)
+) *cronExpression {
+	c := new(cronExpression)
+	c.ext = ext
 	c.action = action
 	return c
 }
@@ -26,7 +27,7 @@ func (c *cronExpression) Run(ctx context.Context) error {
 	cron := robfig_cron.New()
 	cron.Start()
 	defer cron.Stop()
-	cron.AddFunc(c.expression, func() {
+	cron.AddFunc(c.ext, func() {
 		glog.V(4).Infof("run cron action started")
 		if err := c.action(ctx); err != nil {
 			glog.V(2).Infof("action failed -> exit")
