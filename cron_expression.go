@@ -22,7 +22,7 @@ func NewExpressionCron(
 }
 
 func (c *cronExpression) Run(ctx context.Context) error {
-	glog.V(4).Infof("run cron action started")
+	glog.V(4).Infof("register cron actions")
 	errChan := make(chan error)
 	cron := robfig_cron.New()
 	cron.Start()
@@ -33,6 +33,7 @@ func (c *cronExpression) Run(ctx context.Context) error {
 			glog.V(2).Infof("action failed -> exit")
 			errChan <- err
 		}
+		glog.V(4).Infof("run cron action finished")
 	})
 	select {
 	case err := <-errChan:
