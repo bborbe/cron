@@ -3,9 +3,10 @@ package cron
 import (
 	"context"
 	"errors"
-	. "github.com/bborbe/assert"
 	"testing"
 	"time"
+
+	. "github.com/bborbe/assert"
 )
 
 func TestRunOneTime(t *testing.T) {

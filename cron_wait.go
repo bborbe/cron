@@ -2,8 +2,9 @@ package cron
 
 import (
 	"context"
-	"github.com/golang/glog"
 	"time"
+
+	"github.com/golang/glog"
 )
 
 type cronWait struct {

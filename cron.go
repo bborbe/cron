@@ -1,6 +1,8 @@
 package cron
 
-import "context"
+import (
+	"context"
+)
 
 type Cron interface {
 	Run(ctx context.Context) error
