@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SOURCEDIRECTORY="github.com/bborbe/cron"
+SOURCEDIRECTORY="github.com/bborbe/assert"
 
 ################################################################################
 

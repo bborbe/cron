@@ -1,6 +1,0 @@
-package: github.com/bborbe/cron
-import:
-- package: github.com/golang/glog
-- package: github.com/robfig/cron
-testImport:
-- package: github.com/bborbe/assert
