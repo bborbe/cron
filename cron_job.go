@@ -1,3 +1,7 @@
+// Copyright (c) 2019 Benjamin Borbe All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 package cron
 
 import (
@@ -6,6 +10,11 @@ import (
 
 	"github.com/golang/glog"
 )
+
+//go:generate counterfeiter -o mocks/cron-job.go --fake-name CronJob . CronJob
+type CronJob interface {
+	Run(ctx context.Context) error
+}
 
 type cronJob struct {
 	oneTime    bool
@@ -19,7 +28,7 @@ func NewCronJob(
 	expression string,
 	wait time.Duration,
 	action func(ctx context.Context) error,
-) *cronJob {
+) CronJob {
 	return &cronJob{
 		oneTime:    oneTime,
 		expression: expression,

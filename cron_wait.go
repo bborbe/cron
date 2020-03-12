@@ -1,3 +1,7 @@
+// Copyright (c) 2019 Benjamin Borbe All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 package cron
 
 import (
@@ -7,19 +11,19 @@ import (
 	"github.com/golang/glog"
 )
 
-type cronWait struct {
-	action action
-	wait   time.Duration
-}
-
 func NewWaitCron(
 	wait time.Duration,
 	action action,
-) *cronWait {
+) CronJob {
 	c := new(cronWait)
 	c.action = action
 	c.wait = wait
 	return c
+}
+
+type cronWait struct {
+	action action
+	wait   time.Duration
 }
 
 func (c *cronWait) Run(ctx context.Context) error {
@@ -37,7 +41,6 @@ func (c *cronWait) Run(ctx context.Context) error {
 			glog.V(4).Infof("sleep completed")
 		}
 	}
-	return nil
 }
 
 func (c *cronWait) sleep() <-chan time.Time {

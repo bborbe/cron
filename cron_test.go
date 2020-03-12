@@ -1,8 +1,13 @@
+// Copyright (c) 2019 Benjamin Borbe All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 package cron
 
 import (
 	"context"
 	"errors"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -41,6 +46,7 @@ func TestRunContinuous(t *testing.T) {
 		return nil
 	})
 	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	go func() {
 		time.Sleep(10 * time.Millisecond)
 		cancel()
@@ -81,12 +87,13 @@ func TestRunContinuousCancel(t *testing.T) {
 }
 
 func TestExpression(t *testing.T) {
-	counter := 0
+	var counter int64
 	b := NewExpressionCron("* * * * * ?", func(ctx context.Context) error {
-		counter++
+		atomic.AddInt64(&counter, 1)
 		return nil
 	})
 	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	go func() {
 		time.Sleep(1000 * time.Millisecond)
 		cancel()
@@ -95,7 +102,7 @@ func TestExpression(t *testing.T) {
 	if err := AssertThat(err, NilValue()); err != nil {
 		t.Fatal(err)
 	}
-	if err := AssertThat(counter, Ge(1)); err != nil {
+	if err := AssertThat(atomic.LoadInt64(&counter), Ge(int64(1))); err != nil {
 		t.Fatal(err)
 	}
 }
@@ -106,6 +113,7 @@ func TestExpressionCancel(t *testing.T) {
 		return nil
 	})
 	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	go func() {
 		time.Sleep(10 * time.Millisecond)
 		cancel()
@@ -121,6 +129,7 @@ func TestExpressionError(t *testing.T) {
 		return errors.New("failed")
 	})
 	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	go func() {
 		time.Sleep(1000 * time.Millisecond)
 		cancel()
