@@ -32,4 +32,4 @@ errcheck:
 	@errcheck -ignore '(Close|Write|Fprint)' $(shell go list ./... | grep -v /vendor/)
 
 addlicense:
-	@addlicense -c "Benjamin Borbe" -y 2019 -l bsd ./*.go
+	@addlicense -c "Benjamin Borbe" -y 2023 -l bsd ./*.go
