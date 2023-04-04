@@ -20,7 +20,7 @@ type cronExpression struct {
 func NewExpressionCron(
 	ext string,
 	action action,
-) *cronExpression {
+) CronJob {
 	c := new(cronExpression)
 	c.ext = ext
 	c.action = action
@@ -36,8 +36,8 @@ func (c *cronExpression) Run(ctx context.Context) error {
 	if err != nil {
 		return errors.Wrapf(err, "parse cron expression '%s' failed", c.ext)
 	}
+
 	cron.Start()
-	defer cron.Stop()
 	job := robfig_cron.FuncJob(func() {
 		glog.V(4).Infof("run cron action started")
 		if err := c.action(ctx); err != nil {
@@ -48,10 +48,17 @@ func (c *cronExpression) Run(ctx context.Context) error {
 	})
 	id := cron.Schedule(schedule, job)
 	glog.V(3).Infof("scheduled job: %v", id)
+
 	select {
-	case err := <-errChan:
-		return err
+	case err = <-errChan:
 	case <-ctx.Done():
-		return nil
+		err = nil
 	}
+	glog.V(2).Infof("stopping cron started")
+	select {
+	case err = <-errChan:
+	case <-cron.Stop().Done():
+		glog.V(2).Infof("stopping cron completed")
+	}
+	return err
 }

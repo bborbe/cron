@@ -11,7 +11,7 @@ import (
 	"github.com/golang/glog"
 )
 
-//go:generate counterfeiter -o mocks/cron-job.go --fake-name CronJob . CronJob
+//go:generate go run -mod=vendor github.com/maxbrunsfeld/counterfeiter/v6 -o mocks/cron-job.go --fake-name CronJob . CronJob
 type CronJob interface {
 	Run(ctx context.Context) error
 }
