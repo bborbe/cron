@@ -55,9 +55,10 @@ func (c *cronExpression) Run(ctx context.Context) error {
 		err = nil
 	}
 	glog.V(2).Infof("stopping cron started")
+	stopContext := cron.Stop()
 	select {
 	case err = <-errChan:
-	case <-cron.Stop().Done():
+	case <-stopContext.Done():
 		glog.V(2).Infof("stopping cron completed")
 	}
 	return err
