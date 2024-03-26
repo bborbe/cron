@@ -9,10 +9,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/bborbe/cron"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/pkg/errors"
+
+	"github.com/bborbe/cron"
 )
 
 var _ = Describe("", func() {
