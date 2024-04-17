@@ -9,14 +9,15 @@ import (
 	"sync"
 	"time"
 
-	. "github.com/onsi/ginkgo"
+	"github.com/bborbe/run"
+	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	"github.com/pkg/errors"
 
 	"github.com/bborbe/cron"
 )
 
-var _ = Describe("", func() {
+var _ = Describe("ExpressionCron", func() {
 	var ctx context.Context
 	var action func(ctx context.Context) error
 	var cancel context.CancelFunc
@@ -35,11 +36,11 @@ var _ = Describe("", func() {
 		var started sync.WaitGroup
 		started.Add(1)
 		actionCopy := action
-		expressionCron := cron.NewExpressionCron("@every 0s", func(ctx context.Context) error {
+		expressionCron := cron.NewExpressionCron("@every 0s", run.Func(func(ctx context.Context) error {
 			cancel()
 			started.Done()
 			return actionCopy(ctx)
-		})
+		}))
 
 		mux.Lock()
 		running = true

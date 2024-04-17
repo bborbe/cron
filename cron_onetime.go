@@ -7,11 +7,13 @@ package cron
 import (
 	"context"
 
+	"github.com/bborbe/errors"
+	"github.com/bborbe/run"
 	"github.com/golang/glog"
 )
 
 func NewOneTimeCron(
-	action action,
+	action run.Runnable,
 ) CronJob {
 	return &cronOneTime{
 		action: action,
@@ -19,14 +21,14 @@ func NewOneTimeCron(
 }
 
 type cronOneTime struct {
-	action action
+	action run.Runnable
 }
 
 func (c *cronOneTime) Run(ctx context.Context) error {
 	glog.V(4).Infof("run cron action started")
-	if err := c.action(ctx); err != nil {
-		glog.V(2).Infof("action failed -> exit")
-		return err
+	if err := c.action.Run(ctx); err != nil {
+		return errors.Wrapf(ctx, err, "run cron action failed")
 	}
+	glog.V(4).Infof("run cron action completed")
 	return nil
 }

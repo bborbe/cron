@@ -8,12 +8,14 @@ import (
 	"context"
 	"time"
 
+	"github.com/bborbe/errors"
+	"github.com/bborbe/run"
 	"github.com/golang/glog"
 )
 
 func NewWaitCron(
 	wait time.Duration,
-	action action,
+	action run.Runnable,
 ) CronJob {
 	return &cronWait{
 		action: action,
@@ -22,28 +24,22 @@ func NewWaitCron(
 }
 
 type cronWait struct {
-	action action
+	action run.Runnable
 	wait   time.Duration
 }
 
 func (c *cronWait) Run(ctx context.Context) error {
 	for {
 		glog.V(4).Infof("run cron action started")
-		if err := c.action(ctx); err != nil {
-			glog.V(2).Infof("action failed -> exit")
-			return err
+		if err := c.action.Run(ctx); err != nil {
+			return errors.Wrapf(ctx, err, "run cron action failed")
 		}
+		glog.V(4).Infof("run cron action completed")
 		select {
 		case <-ctx.Done():
-			glog.V(2).Infof("context done -> exit")
-			return nil
-		case <-c.sleep():
-			glog.V(4).Infof("sleep completed")
+			return ctx.Err()
+		case <-time.NewTimer(c.wait).C:
+			glog.V(3).Infof("wait for %v completed", c.wait)
 		}
 	}
-}
-
-func (c *cronWait) sleep() <-chan time.Time {
-	glog.V(0).Infof("sleep for %v", c.wait)
-	return time.After(c.wait)
 }

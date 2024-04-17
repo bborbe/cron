@@ -12,14 +12,15 @@ import (
 	"time"
 
 	. "github.com/bborbe/assert"
+	"github.com/bborbe/run"
 )
 
 func TestRunOneTime(t *testing.T) {
 	counter := 0
-	b := NewOneTimeCron(func(ctx context.Context) error {
+	b := NewOneTimeCron(run.Func(func(ctx context.Context) error {
 		counter++
 		return nil
-	})
+	}))
 	err := b.Run(context.Background())
 	if err := AssertThat(err, NilValue()); err != nil {
 		t.Fatal(err)
@@ -30,9 +31,9 @@ func TestRunOneTime(t *testing.T) {
 }
 
 func TestRunOneTimeError(t *testing.T) {
-	b := NewOneTimeCron(func(ctx context.Context) error {
+	b := NewOneTimeCron(run.Func(func(ctx context.Context) error {
 		return errors.New("fail")
-	})
+	}))
 	err := b.Run(context.Background())
 	if err := AssertThat(err, NotNilValue()); err != nil {
 		t.Fatal(err)
@@ -41,10 +42,10 @@ func TestRunOneTimeError(t *testing.T) {
 
 func TestRunContinuous(t *testing.T) {
 	counter := 0
-	b := NewWaitCron(time.Microsecond, func(ctx context.Context) error {
+	b := NewWaitCron(time.Microsecond, run.Func(func(ctx context.Context) error {
 		counter++
 		return nil
-	})
+	}))
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	go func() {
@@ -52,7 +53,10 @@ func TestRunContinuous(t *testing.T) {
 		cancel()
 	}()
 	err := b.Run(ctx)
-	if err := AssertThat(err, NilValue()); err != nil {
+	if err := AssertThat(err, NotNilValue()); err != nil {
+		t.Fatal(err)
+	}
+	if err := AssertThat(err, Is(context.Canceled)); err != nil {
 		t.Fatal(err)
 	}
 	if err := AssertThat(counter, Gt(1)); err != nil {
@@ -61,9 +65,9 @@ func TestRunContinuous(t *testing.T) {
 }
 
 func TestRunContinuousError(t *testing.T) {
-	b := NewWaitCron(time.Microsecond, func(ctx context.Context) error {
+	b := NewWaitCron(time.Microsecond, run.Func(func(ctx context.Context) error {
 		return errors.New("fail")
-	})
+	}))
 	err := b.Run(context.Background())
 	if err := AssertThat(err, NotNilValue()); err != nil {
 		t.Fatal(err)
@@ -71,27 +75,30 @@ func TestRunContinuousError(t *testing.T) {
 }
 
 func TestRunContinuousCancel(t *testing.T) {
-	b := NewWaitCron(time.Microsecond, func(ctx context.Context) error {
+	b := NewWaitCron(time.Microsecond, run.Func(func(ctx context.Context) error {
 		<-ctx.Done()
 		return nil
-	})
+	}))
 	ctx, cancel := context.WithCancel(context.Background())
 	go func() {
 		time.Sleep(10 * time.Millisecond)
 		cancel()
 	}()
 	err := b.Run(ctx)
-	if err := AssertThat(err, NilValue()); err != nil {
+	if err := AssertThat(err, NotNilValue()); err != nil {
+		t.Fatal(err)
+	}
+	if err := AssertThat(err, Is(context.Canceled)); err != nil {
 		t.Fatal(err)
 	}
 }
 
 func TestExpression(t *testing.T) {
 	var counter int64
-	b := NewExpressionCron("* * * * * ?", func(ctx context.Context) error {
+	b := NewExpressionCron("* * * * * ?", run.Func(func(ctx context.Context) error {
 		atomic.AddInt64(&counter, 1)
 		return nil
-	})
+	}))
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	go func() {
@@ -108,10 +115,10 @@ func TestExpression(t *testing.T) {
 }
 
 func TestExpressionCancel(t *testing.T) {
-	b := NewExpressionCron("* * * * * ?", func(ctx context.Context) error {
+	b := NewExpressionCron("* * * * * ?", run.Func(func(ctx context.Context) error {
 		<-ctx.Done()
 		return nil
-	})
+	}))
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	go func() {
@@ -125,9 +132,9 @@ func TestExpressionCancel(t *testing.T) {
 }
 
 func TestExpressionError(t *testing.T) {
-	b := NewExpressionCron("* * * * * ?", func(ctx context.Context) error {
+	b := NewExpressionCron("* * * * * ?", run.Func(func(ctx context.Context) error {
 		return errors.New("failed")
-	})
+	}))
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	go func() {

@@ -8,6 +8,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/bborbe/run"
 	"github.com/golang/glog"
 )
 
@@ -16,18 +17,11 @@ type CronJob interface {
 	Run(ctx context.Context) error
 }
 
-type cronJob struct {
-	oneTime    bool
-	expression string
-	wait       time.Duration
-	action     func(ctx context.Context) error
-}
-
 func NewCronJob(
 	oneTime bool,
 	expression string,
 	wait time.Duration,
-	action func(ctx context.Context) error,
+	action run.Runnable,
 ) CronJob {
 	return &cronJob{
 		oneTime:    oneTime,
@@ -35,6 +29,13 @@ func NewCronJob(
 		wait:       wait,
 		action:     action,
 	}
+}
+
+type cronJob struct {
+	oneTime    bool
+	expression string
+	wait       time.Duration
+	action     run.Runnable
 }
 
 func (c *cronJob) Run(ctx context.Context) error {
