@@ -9,36 +9,36 @@ import (
 
 	"github.com/golang/glog"
 	"github.com/pkg/errors"
-	robfig_cron "github.com/robfig/cron/v3"
+	"github.com/robfig/cron/v3"
 )
+
+func NewExpressionCron(
+	ext string,
+	action action,
+) CronJob {
+	return &cronExpression{
+		ext:    ext,
+		action: action,
+	}
+}
 
 type cronExpression struct {
 	ext    string
 	action action
 }
 
-func NewExpressionCron(
-	ext string,
-	action action,
-) CronJob {
-	c := new(cronExpression)
-	c.ext = ext
-	c.action = action
-	return c
-}
-
 func (c *cronExpression) Run(ctx context.Context) error {
 	glog.V(4).Infof("register cron actions")
 	errChan := make(chan error)
-	cron := robfig_cron.New()
-	parser := robfig_cron.NewParser(robfig_cron.Second | robfig_cron.Minute | robfig_cron.Hour | robfig_cron.Dom | robfig_cron.Month | robfig_cron.Dow | robfig_cron.Descriptor)
+	cronJob := cron.New()
+	parser := cron.NewParser(cron.Second | cron.Minute | cron.Hour | cron.Dom | cron.Month | cron.Dow | cron.Descriptor)
 	schedule, err := parser.Parse(c.ext)
 	if err != nil {
 		return errors.Wrapf(err, "parse cron expression '%s' failed", c.ext)
 	}
 
-	cron.Start()
-	job := robfig_cron.FuncJob(func() {
+	cronJob.Start()
+	job := cron.FuncJob(func() {
 		glog.V(4).Infof("run cron action started")
 		if err := c.action(ctx); err != nil {
 			glog.V(2).Infof("action failed -> exit")
@@ -46,7 +46,7 @@ func (c *cronExpression) Run(ctx context.Context) error {
 		}
 		glog.V(4).Infof("run cron action finished")
 	})
-	id := cron.Schedule(schedule, job)
+	id := cronJob.Schedule(schedule, job)
 	glog.V(3).Infof("scheduled job: %v", id)
 
 	select {
@@ -55,7 +55,7 @@ func (c *cronExpression) Run(ctx context.Context) error {
 		err = nil
 	}
 	glog.V(2).Infof("stopping cron started")
-	stopContext := cron.Stop()
+	stopContext := cronJob.Stop()
 	select {
 	case err = <-errChan:
 	case <-stopContext.Done():

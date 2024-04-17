@@ -15,10 +15,10 @@ func NewWaitCron(
 	wait time.Duration,
 	action action,
 ) CronJob {
-	c := new(cronWait)
-	c.action = action
-	c.wait = wait
-	return c
+	return &cronWait{
+		action: action,
+		wait:   wait,
+	}
 }
 
 type cronWait struct {

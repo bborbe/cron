@@ -13,9 +13,9 @@ import (
 func NewOneTimeCron(
 	action action,
 ) CronJob {
-	c := new(cronOneTime)
-	c.action = action
-	return c
+	return &cronOneTime{
+		action: action,
+	}
 }
 
 type cronOneTime struct {
