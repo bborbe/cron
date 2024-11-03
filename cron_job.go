@@ -19,7 +19,7 @@ type CronJob interface {
 
 func NewCronJob(
 	oneTime bool,
-	expression string,
+	expression Expression,
 	wait time.Duration,
 	action run.Runnable,
 ) CronJob {
@@ -33,7 +33,7 @@ func NewCronJob(
 
 type cronJob struct {
 	oneTime    bool
-	expression string
+	expression Expression
 	wait       time.Duration
 	action     run.Runnable
 }
