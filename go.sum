@@ -1,7 +1,5 @@
 github.com/bborbe/argument/v2 v2.1.0 h1:9f2wGxW009KSglk85/BBRBn+OYaONWmYNKzeMQL32HA=
 github.com/bborbe/argument/v2 v2.1.0/go.mod h1:LvNCgTfuC87SgrSCJtywLA6HotFAJuFaoBh9dYxV+YQ=
-github.com/bborbe/assert v0.0.0-20181116222016-22a6c6341415 h1:/JFZMMM/HYFeb44D+MSlYTFVI2a9zz2UPK0h9scycxA=
-github.com/bborbe/assert v0.0.0-20181116222016-22a6c6341415/go.mod h1:kASVnwjQZw9E9ne6ofCNXmKseNDlW14YPA+opAL9v18=
 github.com/bborbe/collection v1.7.0 h1:6wnVOaJlH1deVIGAyOD0UWgxodzOYzIzjzZow4JVNXo=
 github.com/bborbe/collection v1.7.0/go.mod h1:/Gz3e9eJ1wqYc22buuKGbkTKLRENyqjJ+44EHu0aFXU=
 github.com/bborbe/errors v1.3.0 h1:LcCk5WjoH/sN+eBy45MspCYxsYAdrwla2hKePZdHLIM=

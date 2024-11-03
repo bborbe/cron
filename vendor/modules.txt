@@ -1,9 +1,6 @@
 # github.com/bborbe/argument/v2 v2.1.0
 ## explicit; go 1.23.1
 github.com/bborbe/argument/v2
-# github.com/bborbe/assert v0.0.0-20181116222016-22a6c6341415
-## explicit
-github.com/bborbe/assert
 # github.com/bborbe/collection v1.7.0
 ## explicit; go 1.23.1
 github.com/bborbe/collection

@@ -3,7 +3,6 @@ module github.com/bborbe/cron
 go 1.23.2
 
 require (
-	github.com/bborbe/assert v0.0.0-20181116222016-22a6c6341415
 	github.com/bborbe/errors v1.3.0
 	github.com/bborbe/run v1.5.3
 	github.com/bborbe/sentry v1.7.0
