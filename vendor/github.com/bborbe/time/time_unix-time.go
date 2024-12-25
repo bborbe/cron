@@ -13,9 +13,26 @@ import (
 
 	"github.com/bborbe/errors"
 	"github.com/bborbe/parse"
-
 	"github.com/bborbe/validation"
 )
+
+type UnixTimes []UnixTime
+
+func (t UnixTimes) Interfaces() []interface{} {
+	result := make([]interface{}, len(t))
+	for i, ss := range t {
+		result[i] = ss
+	}
+	return result
+}
+
+func (t UnixTimes) Strings() []string {
+	result := make([]string, len(t))
+	for i, ss := range t {
+		result[i] = ss.String()
+	}
+	return result
+}
 
 func UnixTimeFromBinary(ctx context.Context, value []byte) (*UnixTime, error) {
 	var t stdtime.Time
@@ -162,10 +179,22 @@ func (u UnixTime) Add(duration stdtime.Duration) UnixTime {
 	return UnixTime(u.Time().Add(duration))
 }
 
-func (d UnixTime) UnixMicro() int64 {
-	return d.Time().UnixMicro()
+func (u UnixTime) Sub(duration DateTime) Duration {
+	return Duration(u.Time().Sub(duration.Time()))
 }
 
-func (d UnixTime) Unix() int64 {
-	return d.Time().Unix()
+func (u UnixTime) UnixMicro() int64 {
+	return u.Time().UnixMicro()
+}
+
+func (u UnixTime) Unix() int64 {
+	return u.Time().Unix()
+}
+
+func (u UnixTime) Truncate(duration Duration) UnixTime {
+	return UnixTime(u.Time().Truncate(duration.Duration()))
+}
+
+func (u UnixTime) DateTime() DateTime {
+	return DateTime(u)
 }

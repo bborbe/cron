@@ -16,6 +16,24 @@ import (
 
 const TimeOfDayLayout = "15:04:05.999999999Z07:00"
 
+type TimeOfDays []TimeOfDay
+
+func (t TimeOfDays) Interfaces() []interface{} {
+	result := make([]interface{}, len(t))
+	for i, ss := range t {
+		result[i] = ss
+	}
+	return result
+}
+
+func (t TimeOfDays) Strings() []string {
+	result := make([]string, len(t))
+	for i, ss := range t {
+		result[i] = ss.String()
+	}
+	return result
+}
+
 func ParseTimeOfDayDefault(ctx context.Context, value interface{}, defaultValue TimeOfDay) TimeOfDay {
 	result, err := ParseTimeOfDay(ctx, value)
 	if err != nil {
@@ -51,6 +69,8 @@ func ParseTimeOfDay(ctx context.Context, value interface{}) (*TimeOfDay, error) 
 	for _, layout := range []string{
 		"15:04:05.999999999Z07:00",
 		"15:04:05.999999999",
+		"15:04:05Z07:00",
+		"15:04:05",
 		"15:04Z07:00",
 		"15:04",
 		stdtime.RFC3339Nano,
@@ -59,7 +79,7 @@ func ParseTimeOfDay(ctx context.Context, value interface{}) (*TimeOfDay, error) 
 	} {
 		t, err = stdtime.Parse(layout, str)
 		if err == nil {
-			return TimeOfDayFromTime(t).Ptr(), nil
+			return TimeOfDayFromTime(t.In(stdtime.UTC)).Ptr(), nil
 		}
 	}
 	return nil, errors.Wrapf(ctx, err, "parse timeOfDay failed")

@@ -12,9 +12,26 @@ import (
 
 	"github.com/bborbe/errors"
 	"github.com/bborbe/parse"
-
 	"github.com/bborbe/validation"
 )
+
+type Dates []Date
+
+func (d Dates) Interfaces() []interface{} {
+	result := make([]interface{}, len(d))
+	for i, ss := range d {
+		result[i] = ss
+	}
+	return result
+}
+
+func (d Dates) Strings() []string {
+	result := make([]string, len(d))
+	for i, ss := range d {
+		result[i] = ss.String()
+	}
+	return result
+}
 
 func DateFromBinary(ctx context.Context, value []byte) (*Date, error) {
 	var t stdtime.Time
@@ -135,6 +152,10 @@ func (d *Date) ComparePtr(stdTime *Date) int {
 
 func (d Date) Add(duration stdtime.Duration) Date {
 	return Date(d.Time().Add(duration))
+}
+
+func (d Date) Sub(duration DateTime) Duration {
+	return Duration(d.Time().Sub(duration.Time()))
 }
 
 func (d Date) UnixMicro() int64 {

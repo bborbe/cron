@@ -12,9 +12,26 @@ import (
 
 	"github.com/bborbe/errors"
 	"github.com/bborbe/parse"
-
 	"github.com/bborbe/validation"
 )
+
+type DateTimes []DateTime
+
+func (t DateTimes) Interfaces() []interface{} {
+	result := make([]interface{}, len(t))
+	for i, ss := range t {
+		result[i] = ss
+	}
+	return result
+}
+
+func (t DateTimes) Strings() []string {
+	result := make([]string, len(t))
+	for i, ss := range t {
+		result[i] = ss.String()
+	}
+	return result
+}
 
 func DateTimeFromBinary(ctx context.Context, value []byte) (*DateTime, error) {
 	var t stdtime.Time
@@ -116,16 +133,21 @@ func (d DateTime) Ptr() *DateTime {
 
 func (d *DateTime) UnmarshalJSON(b []byte) error {
 	str := strings.Trim(string(b), `"`)
-	if len(str) == 0 || str == "null" {
+	switch str {
+	case "", "null":
 		*d = DateTime(stdtime.Time{})
 		return nil
+	case "NOW":
+		*d = DateTime(Now())
+		return nil
+	default:
+		t, err := stdtime.ParseInLocation(stdtime.RFC3339Nano, str, stdtime.UTC)
+		if err != nil {
+			return errors.Wrapf(context.Background(), err, "parse in location failed")
+		}
+		*d = DateTime(t)
+		return nil
 	}
-	t, err := stdtime.ParseInLocation(stdtime.RFC3339Nano, str, stdtime.UTC)
-	if err != nil {
-		return errors.Wrapf(context.Background(), err, "parse in location failed")
-	}
-	*d = DateTime(t)
-	return nil
 }
 
 func (d DateTime) MarshalJSON() ([]byte, error) {
@@ -172,16 +194,20 @@ func (d DateTime) Unix() int64 {
 	return d.Time().Unix()
 }
 
-func (d DateTime) Before(stdTime DateTime) bool {
-	return d.Time().Before(stdTime.Time())
+func (d DateTime) Before(dateTime DateTime) bool {
+	return d.Time().Before(dateTime.Time())
 }
 
-func (d DateTime) After(stdTime DateTime) bool {
-	return d.Time().After(stdTime.Time())
+func (d DateTime) After(dateTime DateTime) bool {
+	return d.Time().After(dateTime.Time())
 }
 
-func (d DateTime) Add(duration stdtime.Duration) DateTime {
-	return DateTime(d.Time().Add(duration))
+func (d DateTime) Add(duration Duration) DateTime {
+	return DateTime(d.Time().Add(duration.Duration()))
+}
+
+func (d DateTime) Sub(duration DateTime) Duration {
+	return Duration(d.Time().Sub(duration.Time()))
 }
 
 func (d DateTime) Compare(stdTime DateTime) int {
@@ -199,4 +225,8 @@ func (d *DateTime) ComparePtr(stdTime *DateTime) int {
 		return 1
 	}
 	return d.Compare(*stdTime)
+}
+
+func (d DateTime) Truncate(duration Duration) DateTime {
+	return DateTime(d.Time().Truncate(duration.Duration()))
 }

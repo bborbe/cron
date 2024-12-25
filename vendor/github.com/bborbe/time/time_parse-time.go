@@ -31,11 +31,11 @@ func ParseTime(ctx context.Context, value interface{}) (*stdtime.Time, error) {
 		now := Now()
 		if len(str) > len(nowConst) {
 			durationString := str[len(nowConst):]
-			duration, err := stdtime.ParseDuration(durationString)
+			duration, err := ParseDuration(ctx, durationString)
 			if err != nil {
 				return nil, errors.Wrapf(ctx, err, "parse duration '%s' failed", durationString)
 			}
-			now = now.Add(duration)
+			now = now.Add(duration.Duration())
 		}
 		return &now, nil
 	}
@@ -43,6 +43,7 @@ func ParseTime(ctx context.Context, value interface{}) (*stdtime.Time, error) {
 	for _, layout := range []string{
 		stdtime.RFC3339Nano,
 		stdtime.RFC3339,
+		"2006-01-02T15:04Z07:00",
 		stdtime.DateTime,
 		stdtime.DateOnly,
 	} {

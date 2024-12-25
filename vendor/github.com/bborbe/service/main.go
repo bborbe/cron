@@ -36,7 +36,6 @@ func Main(
 	glog.CopyStandardLogTo("info")
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	_ = flag.Set("logtostderr", "true")
-	_ = flag.Set("v", "2")
 
 	time.Local = time.UTC
 	glog.V(2).Infof("set global timezone to UTC")

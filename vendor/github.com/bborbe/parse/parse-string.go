@@ -6,11 +6,14 @@ package parse
 
 import (
 	"context"
+	stderrors "errors"
 	"fmt"
 	"strconv"
 
 	"github.com/bborbe/errors"
 )
+
+var InvalidTypeError = stderrors.New("invalid type")
 
 func ParseString(ctx context.Context, value interface{}) (string, error) {
 	switch v := value.(type) {
@@ -37,7 +40,7 @@ func ParseString(ctx context.Context, value interface{}) (string, error) {
 	case fmt.Stringer:
 		return v.String(), nil
 	default:
-		return "", errors.Errorf(ctx, "invalid type")
+		return "", errors.Wrapf(ctx, InvalidTypeError, "parse failed")
 	}
 }
 
