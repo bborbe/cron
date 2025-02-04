@@ -8,6 +8,15 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v2.1.3
+
+- update license
+- go mod update
+
+## v2.1.2
+
+- go mod update
+
 ## v2.1.1
 
 - go mod update
