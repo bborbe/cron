@@ -13,22 +13,34 @@ import (
 	"github.com/golang/glog"
 )
 
+// NewWaitCron
+// Deprecated: use NewIntervalCron instead
 func NewWaitCron(
 	wait time.Duration,
 	action run.Runnable,
 ) CronJob {
-	return &cronWait{
+	return NewIntervalCron(
+		wait,
+		action,
+	)
+}
+
+func NewIntervalCron(
+	wait time.Duration,
+	action run.Runnable,
+) CronJob {
+	return &intervalCron{
 		action: action,
 		wait:   wait,
 	}
 }
 
-type cronWait struct {
+type intervalCron struct {
 	action run.Runnable
 	wait   time.Duration
 }
 
-func (c *cronWait) Run(ctx context.Context) error {
+func (c *intervalCron) Run(ctx context.Context) error {
 	for {
 		glog.V(4).Infof("run cron action started")
 		if err := c.action.Run(ctx); err != nil {
