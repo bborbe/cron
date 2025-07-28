@@ -28,6 +28,23 @@ func NewCronJob(
 		expression: expression,
 		wait:       wait,
 		action:     action,
+		options:    DefaultCronJobOptions(),
+	}
+}
+
+func NewCronJobWithOptions(
+	oneTime bool,
+	expression Expression,
+	wait time.Duration,
+	action run.Runnable,
+	options CronJobOptions,
+) CronJob {
+	return &cronJob{
+		oneTime:    oneTime,
+		expression: expression,
+		wait:       wait,
+		action:     action,
+		options:    options,
 	}
 }
 
@@ -36,24 +53,44 @@ type cronJob struct {
 	expression Expression
 	wait       time.Duration
 	action     run.Runnable
+	options    CronJobOptions
 }
 
 func (c *cronJob) Run(ctx context.Context) error {
+	// Apply wrappers to the action based on options
+	wrappedAction := c.action
+
+	// Apply timeout wrapper first (innermost)
+	if c.options.Timeout > 0 {
+		wrappedAction = WrapWithTimeout(c.options.Name, c.options.Timeout, wrappedAction)
+	}
+
+	// Apply metrics wrapper (outermost)
+	if c.options.EnableMetrics {
+		wrappedAction = WrapWithMetrics(c.options.Name, wrappedAction)
+	}
+
+	// Apply parallel skip wrapper if enabled
+	if c.options.ParallelSkip {
+		parallelSkipper := run.NewParallelSkipper()
+		wrappedAction = parallelSkipper.SkipParallel(wrappedAction.Run)
+	}
+
 	var runner Cron
 	if c.oneTime {
 		glog.V(2).Infof("create one-time cron")
-		runner = NewOneTimeCron(c.action)
+		runner = NewOneTimeCron(wrappedAction)
 	} else if len(c.expression) > 0 {
 		glog.V(2).Infof("create cron with expression %s", c.expression)
 		runner = NewExpressionCron(
 			c.expression,
-			c.action,
+			wrappedAction,
 		)
 	} else {
 		glog.V(2).Infof("create cron with wait %v", c.wait)
-		runner = NewWaitCron(
+		runner = NewIntervalCron(
 			c.wait,
-			c.action,
+			wrappedAction,
 		)
 	}
 	return runner.Run(ctx)

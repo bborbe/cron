@@ -8,6 +8,7 @@ import (
 	"context"
 )
 
+//counterfeiter:generate -o ../mocks/cron.go --fake-name Cron . Cron
 type Cron interface {
 	Run(ctx context.Context) error
 }
