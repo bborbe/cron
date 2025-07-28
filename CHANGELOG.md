@@ -8,6 +8,10 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.5.3
+
+- add duration metrics with ObserveDuration for tracking cron job execution times
+
 ## v1.5.2
 
 - migrate all interval functions to use libtime.Duration consistently
