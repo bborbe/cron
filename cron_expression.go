@@ -53,7 +53,7 @@ func NewExpressionCron(
 func NewExpressionCronWithOptions(
 	expression Expression,
 	action run.Runnable,
-	options CronJobOptions,
+	options Options,
 ) run.Runnable {
 	return WrapWithOptions(NewExpressionCron(expression, action), options)
 }

@@ -22,7 +22,7 @@ func NewOneTimeCron(
 
 func NewOneTimeCronWithOptions(
 	action run.Runnable,
-	options CronJobOptions,
+	options Options,
 ) run.Runnable {
 	return WrapWithOptions(
 		NewOneTimeCron(action),

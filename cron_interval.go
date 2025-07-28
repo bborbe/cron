@@ -38,7 +38,7 @@ func NewIntervalCron(
 func NewIntervalCronWithOptions(
 	wait time.Duration,
 	action run.Runnable,
-	options CronJobOptions,
+	options Options,
 ) run.Runnable {
 	return WrapWithOptions(NewIntervalCron(wait, action), options)
 }

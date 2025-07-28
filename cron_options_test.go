@@ -12,10 +12,10 @@ import (
 	"github.com/bborbe/cron"
 )
 
-var _ = Describe("CronJobOptions", func() {
-	Describe("DefaultCronJobOptions", func() {
+var _ = Describe("Options", func() {
+	Describe("DefaultOptions", func() {
 		It("returns default values", func() {
-			options := cron.DefaultCronJobOptions()
+			options := cron.DefaultOptions()
 
 			Expect(options.Name).To(Equal("unnamed-cron"))
 			Expect(options.EnableMetrics).To(BeFalse())
@@ -24,9 +24,9 @@ var _ = Describe("CronJobOptions", func() {
 		})
 	})
 
-	Describe("CronJobOptions creation", func() {
+	Describe("Options creation", func() {
 		It("allows custom configuration", func() {
-			options := cron.CronJobOptions{
+			options := cron.Options{
 				Name:          "test-job",
 				EnableMetrics: true,
 				Timeout:       libtime.Minute * 5,
@@ -40,7 +40,7 @@ var _ = Describe("CronJobOptions", func() {
 		})
 
 		It("allows partial configuration", func() {
-			options := cron.CronJobOptions{
+			options := cron.Options{
 				Name:          "partial-job",
 				EnableMetrics: true,
 			}

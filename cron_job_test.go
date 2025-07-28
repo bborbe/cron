@@ -71,10 +71,10 @@ var _ = Describe("CronJob", func() {
 	})
 
 	Describe("NewCronJobWithOptions", func() {
-		var options cron.CronJobOptions
+		var options cron.Options
 
 		BeforeEach(func() {
-			options = cron.CronJobOptions{
+			options = cron.Options{
 				Name:          "test-job",
 				EnableMetrics: false,
 				Timeout:       0,

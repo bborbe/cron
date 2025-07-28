@@ -8,15 +8,15 @@ import (
 	libtime "github.com/bborbe/time"
 )
 
-type CronJobOptions struct {
+type Options struct {
 	Name          string
 	EnableMetrics bool
 	Timeout       libtime.Duration
 	ParallelSkip  bool
 }
 
-func DefaultCronJobOptions() CronJobOptions {
-	return CronJobOptions{
+func DefaultOptions() Options {
+	return Options{
 		Name:          "unnamed-cron",
 		EnableMetrics: false,
 		Timeout:       0, // disabled

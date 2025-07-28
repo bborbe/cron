@@ -35,7 +35,7 @@ var _ = Describe("WrapWithOptions", func() {
 
 	Describe("with no options enabled", func() {
 		It("returns the original action unchanged", func() {
-			options := cron.CronJobOptions{
+			options := cron.Options{
 				Name:          "test-job",
 				EnableMetrics: false,
 				Timeout:       0,
@@ -52,7 +52,7 @@ var _ = Describe("WrapWithOptions", func() {
 
 	Describe("with metrics enabled", func() {
 		It("wraps action with metrics", func() {
-			options := cron.CronJobOptions{
+			options := cron.Options{
 				Name:          "metrics-job",
 				EnableMetrics: true,
 				Timeout:       0,
@@ -72,7 +72,7 @@ var _ = Describe("WrapWithOptions", func() {
 			})
 
 			It("propagates error through metrics wrapper", func() {
-				options := cron.CronJobOptions{
+				options := cron.Options{
 					Name:          "failing-metrics-job",
 					EnableMetrics: true,
 				}
@@ -89,7 +89,7 @@ var _ = Describe("WrapWithOptions", func() {
 
 	Describe("with timeout enabled", func() {
 		It("wraps action with timeout", func() {
-			options := cron.CronJobOptions{
+			options := cron.Options{
 				Name:    "timeout-job",
 				Timeout: libtime.Second,
 			}
@@ -112,7 +112,7 @@ var _ = Describe("WrapWithOptions", func() {
 				}
 			})
 
-			options := cron.CronJobOptions{
+			options := cron.Options{
 				Name:    "slow-timeout-job",
 				Timeout: libtime.Millisecond * 50,
 			}
@@ -127,7 +127,7 @@ var _ = Describe("WrapWithOptions", func() {
 
 	Describe("with parallel skip enabled", func() {
 		It("wraps action with parallel skipper", func() {
-			options := cron.CronJobOptions{
+			options := cron.Options{
 				Name:         "parallel-skip-job",
 				ParallelSkip: true,
 			}
@@ -142,7 +142,7 @@ var _ = Describe("WrapWithOptions", func() {
 
 	Describe("with all options enabled", func() {
 		It("applies all wrappers in correct order", func() {
-			options := cron.CronJobOptions{
+			options := cron.Options{
 				Name:          "full-options-job",
 				EnableMetrics: true,
 				Timeout:       libtime.Second,
@@ -162,7 +162,7 @@ var _ = Describe("WrapWithOptions", func() {
 			})
 
 			It("propagates error through all wrappers", func() {
-				options := cron.CronJobOptions{
+				options := cron.Options{
 					Name:          "full-options-failing-job",
 					EnableMetrics: true,
 					Timeout:       libtime.Second,
@@ -190,7 +190,7 @@ var _ = Describe("WrapWithOptions", func() {
 					}
 				})
 
-				options := cron.CronJobOptions{
+				options := cron.Options{
 					Name:          "full-options-timeout-job",
 					EnableMetrics: true,
 					Timeout:       libtime.Millisecond * 50,
@@ -210,7 +210,7 @@ var _ = Describe("WrapWithOptions", func() {
 		It("applies wrappers in documented order: timeout -> metrics -> parallel skip", func() {
 			// This test verifies the wrapper order through successful execution
 			// The order is important for proper error handling and metrics collection
-			options := cron.CronJobOptions{
+			options := cron.Options{
 				Name:          "wrapper-order-job",
 				EnableMetrics: true,
 				Timeout:       libtime.Second * 2,
@@ -232,7 +232,7 @@ var _ = Describe("WrapWithOptions", func() {
 	Describe("integration with existing wrappers", func() {
 		It("can be combined with manual wrappers", func() {
 			// First apply options wrappers
-			options := cron.CronJobOptions{
+			options := cron.Options{
 				Name:          "manual-combo-job",
 				EnableMetrics: true,
 				Timeout:       libtime.Second,

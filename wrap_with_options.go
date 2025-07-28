@@ -13,7 +13,7 @@ import (
 // 1. Timeout wrapper (if timeout > 0)
 // 2. Metrics wrapper (if enabled)
 // 3. Parallel skip wrapper (if enabled)
-func WrapWithOptions(action run.Runnable, options CronJobOptions) run.Runnable {
+func WrapWithOptions(action run.Runnable, options Options) run.Runnable {
 	wrappedAction := action
 
 	// Apply timeout wrapper first (innermost)

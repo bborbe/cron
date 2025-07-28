@@ -22,7 +22,7 @@ func NewCronJob(
 		expression,
 		wait,
 		action,
-		DefaultCronJobOptions(),
+		DefaultOptions(),
 	)
 }
 
@@ -31,7 +31,7 @@ func NewCronJobWithOptions(
 	expression Expression,
 	wait time.Duration,
 	action run.Runnable,
-	options CronJobOptions,
+	options Options,
 ) run.Runnable {
 	if oneTime {
 		glog.V(2).Infof("create one-time cron")
