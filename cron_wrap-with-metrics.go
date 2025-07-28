@@ -6,6 +6,7 @@ package cron
 
 import (
 	"context"
+	"time"
 
 	"github.com/bborbe/run"
 )
@@ -13,8 +14,14 @@ import (
 func WrapWithMetrics(name string, fn run.Runnable) run.Runnable {
 	metrics := NewMetrics()
 	return run.Func(func(ctx context.Context) error {
+		start := time.Now()
 		metrics.IncreaseStarted(name)
-		if err := fn.Run(ctx); err != nil {
+
+		err := fn.Run(ctx)
+		duration := time.Since(start)
+		metrics.ObserveDuration(name, duration.Seconds())
+
+		if err != nil {
 			metrics.IncreaseFailed(name)
 			return err
 		}

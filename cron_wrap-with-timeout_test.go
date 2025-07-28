@@ -6,10 +6,10 @@ package cron_test
 
 import (
 	"context"
-	libtime "github.com/bborbe/time"
 	"time"
 
 	"github.com/bborbe/run"
+	libtime "github.com/bborbe/time"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 

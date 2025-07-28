@@ -33,6 +33,13 @@ var (
 		Name:      "last_success",
 		Help:      "Timestamp of last successful run",
 	}, []string{"name"})
+	duration = prometheus.NewHistogramVec(prometheus.HistogramOpts{
+		Namespace: "cron",
+		Subsystem: "job",
+		Name:      "duration_seconds",
+		Help:      "Duration of cron job execution in seconds",
+		Buckets:   prometheus.DefBuckets,
+	}, []string{"name"})
 )
 
 func init() {
@@ -41,6 +48,7 @@ func init() {
 		completed,
 		failed,
 		lastSuccess,
+		duration,
 	)
 }
 
@@ -50,6 +58,7 @@ type Metrics interface {
 	IncreaseFailed(name string)
 	IncreaseCompleted(name string)
 	SetLastSuccessToCurrent(name string)
+	ObserveDuration(name string, durationSeconds float64)
 }
 
 func NewMetrics() Metrics {
@@ -73,4 +82,8 @@ func (c *metrics) IncreaseCompleted(name string) {
 
 func (c *metrics) SetLastSuccessToCurrent(name string) {
 	lastSuccess.With(prometheus.Labels{"name": name}).SetToCurrentTime()
+}
+
+func (c *metrics) ObserveDuration(name string, durationSeconds float64) {
+	duration.With(prometheus.Labels{"name": name}).Observe(durationSeconds)
 }

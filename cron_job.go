@@ -5,9 +5,8 @@
 package cron
 
 import (
-	libtime "github.com/bborbe/time"
-
 	"github.com/bborbe/run"
+	libtime "github.com/bborbe/time"
 	"github.com/golang/glog"
 )
 
