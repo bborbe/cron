@@ -6,6 +6,7 @@ package cron_test
 
 import (
 	"context"
+	libtime "github.com/bborbe/time"
 	"time"
 
 	"github.com/bborbe/run"
@@ -18,8 +19,8 @@ import (
 var _ = Describe("WrapWithTimeout", func() {
 	var ctx context.Context
 	var err error
-	var sleep time.Duration
-	var timeout time.Duration
+	var sleep libtime.Duration
+	var timeout libtime.Duration
 	var counter int
 	BeforeEach(func() {
 		ctx = context.Background()
@@ -33,7 +34,7 @@ var _ = Describe("WrapWithTimeout", func() {
 				select {
 				case <-ctx.Done():
 					return ctx.Err()
-				case <-time.NewTimer(sleep).C:
+				case <-time.NewTimer(sleep.Duration()).C:
 					counter++
 				}
 				return nil
@@ -43,8 +44,8 @@ var _ = Describe("WrapWithTimeout", func() {
 	})
 	Context("timeout exceeded", func() {
 		BeforeEach(func() {
-			sleep = time.Second
-			timeout = time.Nanosecond
+			sleep = libtime.Second
+			timeout = libtime.Nanosecond
 		})
 		It("returns error", func() {
 			Expect(err).NotTo(BeNil())
@@ -55,8 +56,8 @@ var _ = Describe("WrapWithTimeout", func() {
 	})
 	Context("timeout not exceeded", func() {
 		BeforeEach(func() {
-			sleep = time.Nanosecond
-			timeout = 2 * time.Second
+			sleep = libtime.Nanosecond
+			timeout = 2 * libtime.Second
 		})
 		It("returns no error", func() {
 			Expect(err).To(BeNil())
@@ -67,7 +68,7 @@ var _ = Describe("WrapWithTimeout", func() {
 	})
 	Context("timeout disabled", func() {
 		BeforeEach(func() {
-			sleep = time.Nanosecond
+			sleep = libtime.Nanosecond
 			timeout = 0
 		})
 		It("returns no error", func() {
@@ -79,8 +80,8 @@ var _ = Describe("WrapWithTimeout", func() {
 	})
 	Context("negative timeout", func() {
 		BeforeEach(func() {
-			sleep = time.Nanosecond
-			timeout = -1 * time.Second
+			sleep = libtime.Nanosecond
+			timeout = -1 * libtime.Second
 		})
 		It("returns no error", func() {
 			Expect(err).To(BeNil())

@@ -18,7 +18,7 @@ func WrapWithOptions(action run.Runnable, options Options) run.Runnable {
 
 	// Apply timeout wrapper first (innermost)
 	if options.Timeout.Duration() > 0 {
-		wrappedAction = WrapWithTimeout(options.Name, options.Timeout.Duration(), wrappedAction)
+		wrappedAction = WrapWithTimeout(options.Name, options.Timeout, wrappedAction)
 	}
 
 	// Apply metrics wrapper (outermost)

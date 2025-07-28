@@ -7,6 +7,7 @@ package cron_test
 import (
 	"context"
 	"errors"
+	libtime "github.com/bborbe/time"
 	"time"
 
 	"github.com/bborbe/run"
@@ -36,7 +37,7 @@ var _ = Describe("Wrapper Integration", func() {
 				})
 
 				// Apply timeout first, then metrics
-				wrappedAction := cron.WrapWithTimeout("integration-job", 1*time.Second, action)
+				wrappedAction := cron.WrapWithTimeout("integration-job", 1*libtime.Second, action)
 				wrappedAction = cron.WrapWithMetrics("integration-job", wrappedAction)
 
 				err := wrappedAction.Run(ctx)
@@ -59,7 +60,7 @@ var _ = Describe("Wrapper Integration", func() {
 				})
 
 				// Apply timeout first, then metrics
-				wrappedAction := cron.WrapWithTimeout("timeout-job", 50*time.Millisecond, action)
+				wrappedAction := cron.WrapWithTimeout("timeout-job", 50*libtime.Millisecond, action)
 				wrappedAction = cron.WrapWithMetrics("timeout-job", wrappedAction)
 
 				err := wrappedAction.Run(ctx)
@@ -81,7 +82,7 @@ var _ = Describe("Wrapper Integration", func() {
 				})
 
 				// Apply timeout first, then metrics
-				wrappedAction := cron.WrapWithTimeout("error-job", 1*time.Second, action)
+				wrappedAction := cron.WrapWithTimeout("error-job", 1*libtime.Second, action)
 				wrappedAction = cron.WrapWithMetrics("error-job", wrappedAction)
 
 				err := wrappedAction.Run(ctx)
@@ -101,7 +102,7 @@ var _ = Describe("Wrapper Integration", func() {
 
 			// Apply metrics first, then timeout
 			wrappedAction := cron.WrapWithMetrics("reverse-job", action)
-			wrappedAction = cron.WrapWithTimeout("reverse-job", 1*time.Second, wrappedAction)
+			wrappedAction = cron.WrapWithTimeout("reverse-job", 1*libtime.Second, wrappedAction)
 
 			err := wrappedAction.Run(ctx)
 
@@ -123,8 +124,8 @@ var _ = Describe("Wrapper Integration", func() {
 			})
 
 			// Apply multiple timeout layers - inner one should win
-			wrappedAction := cron.WrapWithTimeout("multi-timeout-job", 50*time.Millisecond, action)
-			wrappedAction = cron.WrapWithTimeout("multi-timeout-job", 200*time.Millisecond, wrappedAction)
+			wrappedAction := cron.WrapWithTimeout("multi-timeout-job", 50*libtime.Millisecond, action)
+			wrappedAction = cron.WrapWithTimeout("multi-timeout-job", 200*libtime.Millisecond, wrappedAction)
 
 			err := wrappedAction.Run(ctx)
 
@@ -159,9 +160,9 @@ var _ = Describe("Wrapper Integration", func() {
 			})
 
 			// Complex chain: timeout -> metrics -> timeout -> metrics
-			wrappedAction := cron.WrapWithTimeout("complex-job", 1*time.Second, action)
+			wrappedAction := cron.WrapWithTimeout("complex-job", 1*libtime.Second, action)
 			wrappedAction = cron.WrapWithMetrics("complex-job-1", wrappedAction)
-			wrappedAction = cron.WrapWithTimeout("complex-job", 2*time.Second, wrappedAction)
+			wrappedAction = cron.WrapWithTimeout("complex-job", 2*libtime.Second, wrappedAction)
 			wrappedAction = cron.WrapWithMetrics("complex-job-2", wrappedAction)
 
 			err := wrappedAction.Run(ctx)
@@ -181,7 +182,7 @@ var _ = Describe("Wrapper Integration", func() {
 			// Mix enabled and disabled timeouts
 			wrappedAction := cron.WrapWithTimeout("disabled-timeout-job", 0, action) // disabled
 			wrappedAction = cron.WrapWithMetrics("disabled-timeout-job", wrappedAction)
-			wrappedAction = cron.WrapWithTimeout("disabled-timeout-job", 1*time.Second, wrappedAction) // enabled
+			wrappedAction = cron.WrapWithTimeout("disabled-timeout-job", 1*libtime.Second, wrappedAction) // enabled
 
 			err := wrappedAction.Run(ctx)
 

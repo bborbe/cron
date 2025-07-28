@@ -61,7 +61,7 @@ var _ = Describe("CronJob", func() {
 
 		Context("interval-based execution", func() {
 			It("uses wait duration when no expression", func() {
-				cronJob := cron.NewCronJob(false, "", time.Second, action)
+				cronJob := cron.NewCronJob(false, "", libtime.Second, action)
 
 				// We can't easily test the actual scheduling without waiting,
 				// but we can verify the job is created properly

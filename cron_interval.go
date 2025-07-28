@@ -6,6 +6,7 @@ package cron
 
 import (
 	"context"
+	libtime "github.com/bborbe/time"
 	"time"
 
 	"github.com/bborbe/errors"
@@ -16,7 +17,7 @@ import (
 // NewWaitCron
 // Deprecated: use NewIntervalCron instead
 func NewWaitCron(
-	wait time.Duration,
+	wait libtime.Duration,
 	action run.Runnable,
 ) run.Runnable {
 	return NewIntervalCron(
@@ -26,7 +27,7 @@ func NewWaitCron(
 }
 
 func NewIntervalCron(
-	wait time.Duration,
+	wait libtime.Duration,
 	action run.Runnable,
 ) run.Runnable {
 	return &intervalCron{
@@ -36,7 +37,7 @@ func NewIntervalCron(
 }
 
 func NewIntervalCronWithOptions(
-	wait time.Duration,
+	wait libtime.Duration,
 	action run.Runnable,
 	options Options,
 ) run.Runnable {
@@ -45,7 +46,7 @@ func NewIntervalCronWithOptions(
 
 type intervalCron struct {
 	action run.Runnable
-	wait   time.Duration
+	wait   libtime.Duration
 }
 
 func (c *intervalCron) Run(ctx context.Context) error {
@@ -58,7 +59,7 @@ func (c *intervalCron) Run(ctx context.Context) error {
 		select {
 		case <-ctx.Done():
 			return ctx.Err()
-		case <-time.NewTimer(c.wait).C:
+		case <-time.NewTimer(c.wait.Duration()).C:
 			glog.V(3).Infof("wait for %v completed", c.wait)
 		}
 	}

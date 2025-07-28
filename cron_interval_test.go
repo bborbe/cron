@@ -7,6 +7,7 @@ package cron_test
 import (
 	"context"
 	"errors"
+	libtime "github.com/bborbe/time"
 	"time"
 
 	"github.com/bborbe/run"
@@ -28,14 +29,14 @@ var _ = Describe("CronWait", func() {
 			counter = 0
 		})
 		JustBeforeEach(func() {
-			b := libcron.NewWaitCron(time.Microsecond, run.Func(func(ctx context.Context) error {
+			b := libcron.NewWaitCron(libtime.Microsecond, run.Func(func(ctx context.Context) error {
 				counter++
 				return nil
 			}))
 			ctx, cancel := context.WithCancel(context.Background())
 			defer cancel()
 			go func() {
-				time.Sleep(10 * time.Millisecond)
+				time.Sleep(10 * libtime.Millisecond.Duration())
 				cancel()
 			}()
 			err = b.Run(ctx)
@@ -51,7 +52,7 @@ var _ = Describe("CronWait", func() {
 	})
 	Context("RunContinuousError", func() {
 		JustBeforeEach(func() {
-			b := libcron.NewWaitCron(time.Microsecond, run.Func(func(ctx context.Context) error {
+			b := libcron.NewWaitCron(libtime.Microsecond, run.Func(func(ctx context.Context) error {
 				return errors.New("fail")
 			}))
 			err = b.Run(ctx)
@@ -62,7 +63,7 @@ var _ = Describe("CronWait", func() {
 	})
 	Context("RunContinuousCancel", func() {
 		JustBeforeEach(func() {
-			b := libcron.NewWaitCron(time.Microsecond, run.Func(func(ctx context.Context) error {
+			b := libcron.NewWaitCron(libtime.Microsecond, run.Func(func(ctx context.Context) error {
 				<-ctx.Done()
 				return nil
 			}))

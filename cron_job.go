@@ -5,7 +5,7 @@
 package cron
 
 import (
-	"time"
+	libtime "github.com/bborbe/time"
 
 	"github.com/bborbe/run"
 	"github.com/golang/glog"
@@ -14,7 +14,7 @@ import (
 func NewCronJob(
 	oneTime bool,
 	expression Expression,
-	wait time.Duration,
+	wait libtime.Duration,
 	action run.Runnable,
 ) run.Runnable {
 	return NewCronJobWithOptions(
@@ -29,7 +29,7 @@ func NewCronJob(
 func NewCronJobWithOptions(
 	oneTime bool,
 	expression Expression,
-	wait time.Duration,
+	wait libtime.Duration,
 	action run.Runnable,
 	options Options,
 ) run.Runnable {
