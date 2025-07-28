@@ -39,19 +39,23 @@ func (e Expression) Bytes() []byte {
 	return []byte(e)
 }
 
-func CreateDefaultParser() cron.Parser {
-	return cron.NewParser(cron.Second | cron.Minute | cron.Hour | cron.Dom | cron.Month | cron.Dow | cron.Descriptor)
-}
-
 func NewExpressionCron(
 	expression Expression,
 	action run.Runnable,
-) CronJob {
+) run.Runnable {
 	return &cronExpression{
 		expression: expression,
 		action:     action,
 		parser:     CreateDefaultParser(),
 	}
+}
+
+func NewExpressionCronWithOptions(
+	expression Expression,
+	action run.Runnable,
+	options CronJobOptions,
+) run.Runnable {
+	return WrapWithOptions(NewExpressionCron(expression, action), options)
 }
 
 type cronExpression struct {

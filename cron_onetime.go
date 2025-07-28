@@ -14,10 +14,20 @@ import (
 
 func NewOneTimeCron(
 	action run.Runnable,
-) CronJob {
+) run.Runnable {
 	return &cronOneTime{
 		action: action,
 	}
+}
+
+func NewOneTimeCronWithOptions(
+	action run.Runnable,
+	options CronJobOptions,
+) run.Runnable {
+	return WrapWithOptions(
+		NewOneTimeCron(action),
+		options,
+	)
 }
 
 type cronOneTime struct {

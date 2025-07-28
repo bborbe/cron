@@ -8,12 +8,19 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.5.0
+
+- Add `WrapWithOptions()` function for centralized wrapper management
+- Add explicit factory functions: `NewExpressionCronWithOptions()`, `NewIntervalCronWithOptions()`, `NewOneTimeCronWithOptions()`
+- Add `CronJobOptions` struct with `github.com/bborbe/time.Duration` for timeout configuration
+
 ## v1.4.0
 
 - Add Prometheus metrics integration with `WrapWithMetrics()` 
 - Add timeout wrapper with `WrapWithTimeout()`
-- Add `NewCronJobWithOptions()` factory with configurable options
 - Add parallel execution prevention support
+- Add `github.com/prometheus/client_golang` dependency
+- Maintain full backward compatibility
 
 ## v1.3.1
 

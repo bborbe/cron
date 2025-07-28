@@ -5,13 +5,13 @@
 package cron
 
 import (
-	"time"
+	libtime "github.com/bborbe/time"
 )
 
 type CronJobOptions struct {
 	Name          string
 	EnableMetrics bool
-	Timeout       time.Duration
+	Timeout       libtime.Duration
 	ParallelSkip  bool
 }
 

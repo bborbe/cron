@@ -5,8 +5,7 @@
 package cron_test
 
 import (
-	"time"
-
+	libtime "github.com/bborbe/time"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
@@ -20,7 +19,7 @@ var _ = Describe("CronJobOptions", func() {
 
 			Expect(options.Name).To(Equal("unnamed-cron"))
 			Expect(options.EnableMetrics).To(BeFalse())
-			Expect(options.Timeout).To(Equal(time.Duration(0)))
+			Expect(options.Timeout).To(Equal(libtime.Duration(0)))
 			Expect(options.ParallelSkip).To(BeFalse())
 		})
 	})
@@ -30,13 +29,13 @@ var _ = Describe("CronJobOptions", func() {
 			options := cron.CronJobOptions{
 				Name:          "test-job",
 				EnableMetrics: true,
-				Timeout:       5 * time.Minute,
+				Timeout:       libtime.Minute * 5,
 				ParallelSkip:  true,
 			}
 
 			Expect(options.Name).To(Equal("test-job"))
 			Expect(options.EnableMetrics).To(BeTrue())
-			Expect(options.Timeout).To(Equal(5 * time.Minute))
+			Expect(options.Timeout).To(Equal(libtime.Minute * 5))
 			Expect(options.ParallelSkip).To(BeTrue())
 		})
 
@@ -48,7 +47,7 @@ var _ = Describe("CronJobOptions", func() {
 
 			Expect(options.Name).To(Equal("partial-job"))
 			Expect(options.EnableMetrics).To(BeTrue())
-			Expect(options.Timeout).To(Equal(time.Duration(0)))
+			Expect(options.Timeout).To(Equal(libtime.Duration(0)))
 			Expect(options.ParallelSkip).To(BeFalse())
 		})
 	})

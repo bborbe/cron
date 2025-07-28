@@ -3,3 +3,9 @@
 // license that can be found in the LICENSE file.
 
 package cron
+
+import "github.com/robfig/cron/v3"
+
+func CreateDefaultParser() cron.Parser {
+	return cron.NewParser(cron.Second | cron.Minute | cron.Hour | cron.Dom | cron.Month | cron.Dow | cron.Descriptor)
+}

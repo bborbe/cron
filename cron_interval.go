@@ -18,7 +18,7 @@ import (
 func NewWaitCron(
 	wait time.Duration,
 	action run.Runnable,
-) CronJob {
+) run.Runnable {
 	return NewIntervalCron(
 		wait,
 		action,
@@ -28,11 +28,19 @@ func NewWaitCron(
 func NewIntervalCron(
 	wait time.Duration,
 	action run.Runnable,
-) CronJob {
+) run.Runnable {
 	return &intervalCron{
 		action: action,
 		wait:   wait,
 	}
+}
+
+func NewIntervalCronWithOptions(
+	wait time.Duration,
+	action run.Runnable,
+	options CronJobOptions,
+) run.Runnable {
+	return WrapWithOptions(NewIntervalCron(wait, action), options)
 }
 
 type intervalCron struct {

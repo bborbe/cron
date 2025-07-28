@@ -8,6 +8,7 @@ require (
 	github.com/bborbe/run v1.7.5
 	github.com/bborbe/sentry v1.8.0
 	github.com/bborbe/service v1.6.2
+	github.com/bborbe/time v1.16.2
 	github.com/golang/glog v1.2.5
 	github.com/google/addlicense v1.1.1
 	github.com/incu6us/goimports-reviser/v3 v3.9.1
@@ -27,7 +28,6 @@ require (
 	github.com/bborbe/collection v1.9.1 // indirect
 	github.com/bborbe/math v1.2.0 // indirect
 	github.com/bborbe/parse v1.7.1 // indirect
-	github.com/bborbe/time v1.16.2 // indirect
 	github.com/bborbe/validation v1.3.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bmatcuk/doublestar/v4 v4.9.0 // indirect

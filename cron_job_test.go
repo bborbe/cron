@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/bborbe/run"
+	libtime "github.com/bborbe/time"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
@@ -102,7 +103,7 @@ var _ = Describe("CronJob", func() {
 
 		Context("with timeout enabled", func() {
 			BeforeEach(func() {
-				options.Timeout = 100 * time.Millisecond
+				options.Timeout = libtime.Millisecond * 100
 			})
 
 			It("applies timeout to action", func() {
@@ -142,7 +143,7 @@ var _ = Describe("CronJob", func() {
 		Context("with multiple wrappers", func() {
 			BeforeEach(func() {
 				options.EnableMetrics = true
-				options.Timeout = 1 * time.Second
+				options.Timeout = libtime.Second
 				options.ParallelSkip = true
 			})
 
