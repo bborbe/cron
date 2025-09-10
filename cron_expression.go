@@ -55,7 +55,7 @@ func NewExpressionCronWithOptions(
 	action run.Runnable,
 	options Options,
 ) run.Runnable {
-	return WrapWithOptions(NewExpressionCron(expression, action), options)
+	return NewExpressionCron(expression, WrapWithOptions(action, options))
 }
 
 type cronExpression struct {

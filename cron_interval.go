@@ -41,7 +41,13 @@ func NewIntervalCronWithOptions(
 	action run.Runnable,
 	options Options,
 ) run.Runnable {
-	return WrapWithOptions(NewIntervalCron(wait, action), options)
+	return NewIntervalCron(
+		wait,
+		WrapWithOptions(
+			action,
+			options,
+		),
+	)
 }
 
 type intervalCron struct {
