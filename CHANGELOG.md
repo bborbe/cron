@@ -8,6 +8,10 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.6.1
+- Update Go version from 1.24.5 to 1.25.1
+- Update dependencies to latest versions including bborbe/run, bborbe/sentry, bborbe/time, prometheus/client_golang, onsi/ginkgo/v2, and others
+
 ## v1.6.0
 
 - **BREAKING FIX**: Fix timeout context deadline issue in `NewIntervalCronWithOptions` and `NewExpressionCronWithOptions`
