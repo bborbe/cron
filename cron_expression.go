@@ -27,18 +27,23 @@ import (
 // 0 0 * * * 0
 type Expression string
 
+// String returns the cron expression as a string.
 func (e Expression) String() string {
 	return string(e)
 }
 
+// Ptr returns a pointer to the Expression value.
 func (e Expression) Ptr() *Expression {
 	return &e
 }
 
+// Bytes returns the cron expression as a byte slice.
 func (e Expression) Bytes() []byte {
 	return []byte(e)
 }
 
+// NewExpressionCron creates a cron job that executes based on a cron expression.
+// The expression supports standard cron format and common descriptors like '@every 1h'.
 func NewExpressionCron(
 	expression Expression,
 	action run.Runnable,
@@ -50,6 +55,8 @@ func NewExpressionCron(
 	}
 }
 
+// NewExpressionCronWithOptions creates an expression-based cron job with configurable options.
+// Applies timeout, metrics, and parallel execution controls to individual action executions.
 func NewExpressionCronWithOptions(
 	expression Expression,
 	action run.Runnable,

@@ -10,6 +10,9 @@ import (
 	"github.com/golang/glog"
 )
 
+// NewCronJob creates a new cron job with automatic strategy selection based on parameters.
+// Uses one-time execution if oneTime is true, expression-based scheduling if expression is provided,
+// or duration-based intervals if wait duration is specified.
 func NewCronJob(
 	oneTime bool,
 	expression Expression,
@@ -25,6 +28,9 @@ func NewCronJob(
 	)
 }
 
+// NewCronJobWithOptions creates a new cron job with configurable options.
+// Applies the same strategy selection as NewCronJob but with additional wrappers for
+// timeout, metrics, and parallel execution control based on the provided options.
 func NewCronJobWithOptions(
 	oneTime bool,
 	expression Expression,

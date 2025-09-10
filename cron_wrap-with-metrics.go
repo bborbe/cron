@@ -11,6 +11,8 @@ import (
 	"github.com/bborbe/run"
 )
 
+// WrapWithMetrics wraps a runnable with Prometheus metrics collection.
+// Records start, completion, failure counts and execution duration for the named job.
 func WrapWithMetrics(name string, fn run.Runnable) run.Runnable {
 	metrics := NewMetrics()
 	return run.Func(func(ctx context.Context) error {

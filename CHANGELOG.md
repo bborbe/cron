@@ -8,15 +8,24 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
-## v1.5.3
+## v1.6.0
 
-- add duration metrics with ObserveDuration for tracking cron job execution times
+- **BREAKING FIX**: Fix timeout context deadline issue in `NewIntervalCronWithOptions` and `NewExpressionCronWithOptions`
+- **IMPORTANT**: Timeout now applies to individual action executions instead of entire cron lifecycle
+- This prevents premature termination of long-running interval/expression-based crons
+- Add comprehensive Go documentation for all public interfaces, structs, functions, and methods
+- Add package-level documentation explaining the three execution strategies
+- All existing timeout configurations will now work correctly for repeated executions
 
 ## v1.5.2
 
 - migrate all interval functions to use libtime.Duration consistently
 - fix WrapWithTimeout to accept libtime.Duration directly
 - improve API consistency across all factory functions
+
+## v1.5.2
+
+- Important fix of ExpressionCron and IntervalCron with Options
 
 ## v1.5.1
 

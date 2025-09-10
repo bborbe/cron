@@ -26,6 +26,8 @@ func NewWaitCron(
 	)
 }
 
+// NewIntervalCron creates a cron job that executes at fixed time intervals.
+// The job runs continuously with the specified wait duration between executions.
 func NewIntervalCron(
 	wait libtime.Duration,
 	action run.Runnable,
@@ -36,6 +38,8 @@ func NewIntervalCron(
 	}
 }
 
+// NewIntervalCronWithOptions creates an interval-based cron job with configurable options.
+// Applies timeout, metrics, and parallel execution controls to individual action executions.
 func NewIntervalCronWithOptions(
 	wait libtime.Duration,
 	action run.Runnable,

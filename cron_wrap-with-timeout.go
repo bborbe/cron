@@ -12,6 +12,9 @@ import (
 	"github.com/golang/glog"
 )
 
+// WrapWithTimeout wraps a runnable with timeout enforcement.
+// If timeout is <= 0, the original runnable is returned unchanged.
+// Otherwise, executions are cancelled if they exceed the specified duration.
 func WrapWithTimeout(name string, timeout libtime.Duration, fn run.Runnable) run.Runnable {
 	if timeout <= 0 {
 		glog.V(3).Infof("timeout is disabled for cron '%s'", name)
