@@ -124,8 +124,16 @@ var _ = Describe("Wrapper Integration", func() {
 			})
 
 			// Apply multiple timeout layers - inner one should win
-			wrappedAction := cron.WrapWithTimeout("multi-timeout-job", 50*libtime.Millisecond, action)
-			wrappedAction = cron.WrapWithTimeout("multi-timeout-job", 200*libtime.Millisecond, wrappedAction)
+			wrappedAction := cron.WrapWithTimeout(
+				"multi-timeout-job",
+				50*libtime.Millisecond,
+				action,
+			)
+			wrappedAction = cron.WrapWithTimeout(
+				"multi-timeout-job",
+				200*libtime.Millisecond,
+				wrappedAction,
+			)
 
 			err := wrappedAction.Run(ctx)
 
@@ -182,7 +190,11 @@ var _ = Describe("Wrapper Integration", func() {
 			// Mix enabled and disabled timeouts
 			wrappedAction := cron.WrapWithTimeout("disabled-timeout-job", 0, action) // disabled
 			wrappedAction = cron.WrapWithMetrics("disabled-timeout-job", wrappedAction)
-			wrappedAction = cron.WrapWithTimeout("disabled-timeout-job", 1*libtime.Second, wrappedAction) // enabled
+			wrappedAction = cron.WrapWithTimeout(
+				"disabled-timeout-job",
+				1*libtime.Second,
+				wrappedAction,
+			) // enabled
 
 			err := wrappedAction.Run(ctx)
 

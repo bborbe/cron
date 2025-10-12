@@ -8,6 +8,15 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.7.0
+- Add golangci-lint configuration with comprehensive linter settings
+- Add security scanning tools: gosec, osv-scanner, trivy
+- Update Go version from 1.24.5 to 1.25.2
+- Enhance Makefile with lint, gosec, osv-scanner, and trivy targets
+- Apply golines formatting for consistent line length (max 100 characters)
+- Add Trivy installation step to CI workflow
+- Update dependencies including bborbe/sentry, bborbe/time, and onsi/ginkgo/v2
+
 ## v1.6.1
 - Update Go version from 1.24.5 to 1.25.1
 - Update dependencies to latest versions including bborbe/run, bborbe/sentry, bborbe/time, prometheus/client_golang, onsi/ginkgo/v2, and others

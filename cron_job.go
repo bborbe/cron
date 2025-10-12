@@ -44,18 +44,18 @@ func NewCronJobWithOptions(
 			action,
 			options,
 		)
-	} else if len(expression) > 0 {
+	}
+	if len(expression) > 0 {
 		glog.V(2).Infof("create cron with expression %s", expression)
 		return NewExpressionCronWithOptions(
 			expression,
 			action,
 			options,
 		)
-	} else {
-		glog.V(2).Infof("create cron with wait %v", wait)
-		return NewIntervalCron(
-			wait,
-			action,
-		)
 	}
+	glog.V(2).Infof("create cron with wait %v", wait)
+	return NewIntervalCron(
+		wait,
+		action,
+	)
 }

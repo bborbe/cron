@@ -22,9 +22,9 @@ func main() {
 }
 
 type application struct {
-	SentryDSN      string `required:"false" arg:"sentry-dsn" env:"SENTRY_DSN" usage:"SentryDSN" display:"length"`
-	SentryProxy    string `required:"false" arg:"sentry-proxy" env:"SENTRY_PROXY" usage:"Sentry Proxy"`
-	CronExpression string `required:"true" arg:"cron-expression" env:"CRON_EXPRESSION" usage:"Cron expression to determine when service is run" default:"@every 1h"`
+	SentryDSN      string `required:"false" arg:"sentry-dsn"      env:"SENTRY_DSN"      usage:"SentryDSN"                                        display:"length"`
+	SentryProxy    string `required:"false" arg:"sentry-proxy"    env:"SENTRY_PROXY"    usage:"Sentry Proxy"`
+	CronExpression string `required:"true"  arg:"cron-expression" env:"CRON_EXPRESSION" usage:"Cron expression to determine when service is run"                  default:"@every 1h"`
 }
 
 func (a *application) Run(ctx context.Context, sentryClient libsentry.Client) error {

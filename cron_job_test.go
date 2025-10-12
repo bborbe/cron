@@ -83,7 +83,13 @@ var _ = Describe("CronJob", func() {
 		})
 
 		It("creates a cron job with custom options", func() {
-			cronJob := cron.NewCronJobWithOptions(false, cron.Expression("@every 1s"), 0, action, options)
+			cronJob := cron.NewCronJobWithOptions(
+				false,
+				cron.Expression("@every 1s"),
+				0,
+				action,
+				options,
+			)
 			Expect(cronJob).NotTo(BeNil())
 		})
 

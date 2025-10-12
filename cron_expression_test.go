@@ -39,11 +39,14 @@ var _ = Describe("ExpressionCron", func() {
 			var started sync.WaitGroup
 			started.Add(1)
 			actionCopy := action
-			expressionCron := cron.NewExpressionCron("@every 0s", run.Func(func(ctx context.Context) error {
-				cancel()
-				started.Done()
-				return actionCopy(ctx)
-			}))
+			expressionCron := cron.NewExpressionCron(
+				"@every 0s",
+				run.Func(func(ctx context.Context) error {
+					cancel()
+					started.Done()
+					return actionCopy(ctx)
+				}),
+			)
 
 			mux.Lock()
 			running = true
