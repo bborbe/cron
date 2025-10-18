@@ -8,6 +8,10 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.7.1
+- Improve error handling by switching from pkg/errors to bborbe/errors
+- Add context parameter to error wrapping in cron expression parsing
+
 ## v1.7.0
 - Add golangci-lint configuration with comprehensive linter settings
 - Add security scanning tools: gosec, osv-scanner, trivy

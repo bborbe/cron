@@ -6,10 +6,11 @@ package cron
 
 import (
 	"context"
+	"fmt"
 
+	"github.com/bborbe/errors"
 	"github.com/bborbe/run"
 	"github.com/golang/glog"
-	"github.com/pkg/errors"
 	"github.com/robfig/cron/v3"
 )
 
@@ -75,7 +76,11 @@ func (c *cronExpression) Run(ctx context.Context) error {
 	glog.V(4).Infof("register cron actions")
 	schedule, err := c.parser.Parse(c.expression.String())
 	if err != nil {
-		return errors.Wrapf(err, "parse cron expression '%s' failed", c.expression)
+		return errors.Wrap(
+			ctx,
+			err,
+			fmt.Sprintf("parse cron expression '%s' failed", c.expression),
+		)
 	}
 
 	cronJob := cron.New()
