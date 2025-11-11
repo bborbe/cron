@@ -8,6 +8,11 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.7.2
+- Update Go version from 1.25.2 to 1.25.4
+- Update dependencies: bborbe/errors, bborbe/run, bborbe/sentry, bborbe/service, bborbe/time
+- Update dependencies: google/osv-scanner, onsi/ginkgo, securego/gosec
+
 ## v1.7.1
 - Improve error handling by switching from pkg/errors to bborbe/errors
 - Add context parameter to error wrapping in cron expression parsing
