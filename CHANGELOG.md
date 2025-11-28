@@ -8,6 +8,12 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.7.3
+- Update dependencies: bborbe/run v1.8.1 → v1.8.2
+- Update dependencies: google/osv-scanner v2.2.4 → v2.3.0
+- Update dependencies: incu6us/goimports-reviser v3.10.0 → v3.11.0
+- Update dependencies: getsentry/sentry-go v0.36.0 → v0.36.2
+
 ## v1.7.2
 - Update Go version from 1.25.2 to 1.25.4
 - Update dependencies: bborbe/errors, bborbe/run, bborbe/sentry, bborbe/service, bborbe/time
