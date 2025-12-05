@@ -8,6 +8,10 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.8.0
+
+- update go and deps
+
 ## v1.7.3
 - Update dependencies: bborbe/run v1.8.1 → v1.8.2
 - Update dependencies: google/osv-scanner v2.2.4 → v2.3.0
