@@ -8,6 +8,12 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.8.2
+
+- Update Go to 1.25.6
+- Update dependencies (errors, sentry, service, time, osv-scanner, ginkgo, gomega, and indirect deps)
+- Add .update-logs/ and .mcp-* to .gitignore
+
 ## v1.8.1
 
 - Update Go to 1.25.5
