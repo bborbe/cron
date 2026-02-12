@@ -1,8 +1,10 @@
 module github.com/bborbe/cron
 
-go 1.25.7
+go 1.26.0
 
-replace k8s.io/kube-openapi => k8s.io/kube-openapi v0.0.0-20250701173324-9bd5c66d9911
+replace (
+	k8s.io/kube-openapi => k8s.io/kube-openapi v0.0.0-20250701173324-9bd5c66d9911
+)
 
 require (
 	github.com/bborbe/errors v1.5.2
