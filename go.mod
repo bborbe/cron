@@ -1,6 +1,6 @@
 module github.com/bborbe/cron
 
-go 1.26.0
+go 1.26.1
 
 replace (
 	k8s.io/kube-openapi => k8s.io/kube-openapi v0.0.0-20250701173324-9bd5c66d9911
@@ -8,10 +8,10 @@ replace (
 
 require (
 	github.com/bborbe/errors v1.5.3
-	github.com/bborbe/run v1.9.3
+	github.com/bborbe/run v1.9.4
 	github.com/bborbe/sentry v1.9.8
 	github.com/bborbe/service v1.9.3
-	github.com/bborbe/time v1.24.0
+	github.com/bborbe/time v1.24.1
 	github.com/golang/glog v1.2.5
 	github.com/golangci/golangci-lint v1.64.8
 	github.com/google/addlicense v1.2.0
@@ -82,10 +82,10 @@ require (
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/aymerick/douceur v0.2.0 // indirect
 	github.com/bborbe/argument/v2 v2.12.3 // indirect
-	github.com/bborbe/collection v1.20.1 // indirect
-	github.com/bborbe/math v1.3.0 // indirect
-	github.com/bborbe/parse v1.10.1 // indirect
-	github.com/bborbe/validation v1.4.1 // indirect
+	github.com/bborbe/collection v1.20.3 // indirect
+	github.com/bborbe/math v1.3.1 // indirect
+	github.com/bborbe/parse v1.10.3 // indirect
+	github.com/bborbe/validation v1.4.4 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bkielbasa/cyclop v1.2.3 // indirect
 	github.com/blizzy78/varnamelen v0.8.0 // indirect
@@ -158,7 +158,7 @@ require (
 	github.com/firefart/nonamedreturns v1.0.5 // indirect
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
 	github.com/fzipp/gocyclo v0.6.0 // indirect
-	github.com/getsentry/sentry-go v0.42.0 // indirect
+	github.com/getsentry/sentry-go v0.43.0 // indirect
 	github.com/ghostiam/protogetter v0.3.9 // indirect
 	github.com/go-critic/go-critic v0.12.0 // indirect
 	github.com/go-errors/errors v1.4.2 // indirect
