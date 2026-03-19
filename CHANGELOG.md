@@ -8,6 +8,13 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.8.7
+
+- Update bborbe/* dependencies (errors, run, sentry, service, time)
+- Update docker/cli to v29.3.0, securego/gosec to v2.24.7
+- Remove k8s exclude blocks and replace/exclude directives cleanup
+- Add anthropic-sdk-go, openai-go indirect deps; remove google generative-ai-go
+
 ## v1.8.6
 
 - update grpc to v1.79.3 (fix GHSA-p77j-4mvh-x3m3)
