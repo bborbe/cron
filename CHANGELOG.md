@@ -8,6 +8,11 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.8.6
+
+- update grpc to v1.79.3 (fix GHSA-p77j-4mvh-x3m3)
+- update osv-scanner to v2.3.4
+
 ## v1.8.5
 
 - go mod update
