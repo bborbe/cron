@@ -8,7 +8,7 @@ import (
 	"context"
 )
 
-//counterfeiter:generate -o ../mocks/cron.go --fake-name Cron . Cron
+//counterfeiter:generate -o mocks/cron.go --fake-name Cron . Cron
 
 // Cron represents a scheduled task that can be executed with context-based cancellation.
 type Cron interface {

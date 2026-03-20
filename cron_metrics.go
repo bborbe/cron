@@ -52,7 +52,7 @@ func init() {
 	)
 }
 
-//counterfeiter:generate -o ../mocks/cron-metrics.go --fake-name CronMetrics . Metrics
+//counterfeiter:generate -o mocks/cron-metrics.go --fake-name CronMetrics . Metrics
 
 // Metrics provides methods for collecting and reporting cron job execution statistics.
 type Metrics interface {

@@ -14,8 +14,8 @@ import (
 	"github.com/golang/glog"
 )
 
-// NewWaitCron
-// Deprecated: use NewIntervalCron instead
+// NewWaitCron creates a cron job that waits between runs.
+// Deprecated: use NewIntervalCron instead.
 func NewWaitCron(
 	wait libtime.Duration,
 	action run.Runnable,

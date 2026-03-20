@@ -8,6 +8,15 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.8.8
+
+- chore: migrate from golangci-lint v1 to v2 in tools.go and Makefile
+- fix: update .golangci.yml to v2 config format (version field, linters.settings, issues.exclusions)
+- chore: upgrade bborbe/* dependencies to resolve golangci-lint v1/v2 module graph conflict
+- fix: use go mod tidy -e to handle unresolvable ginkgolinter/types transitive dependency
+- fix: correct NewWaitCron GoDoc comment format for revive exported rule
+- fix: remove redundant interface compliance check in cron_metrics_test.go
+
 ## v1.8.7
 
 - Update bborbe/* dependencies (errors, run, sentry, service, time)

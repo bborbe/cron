@@ -113,12 +113,6 @@ var _ = Describe("CronMetrics", func() {
 		})
 	})
 
-	Describe("Interface compliance", func() {
-		It("implements CronMetrics interface", func() {
-			var _ cron.Metrics = metrics
-		})
-	})
-
 	Describe("Typical usage patterns", func() {
 		It("supports typical success flow", func() {
 			Expect(func() {
