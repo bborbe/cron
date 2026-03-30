@@ -8,6 +8,13 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.8.9
+
+- update bborbe/* dependencies
+- update golangci-lint to v2.11.4
+- update osv-scanner to v2.3.5
+- update shoenig/go-modtool to v0.7.1
+
 ## v1.8.8
 
 - chore: migrate from golangci-lint v1 to v2 in tools.go and Makefile
