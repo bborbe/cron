@@ -8,6 +8,10 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.8.10
+
+- Update go-git/go-git to v5.17.1 (fix security vulnerabilities)
+
 ## v1.8.9
 
 - update bborbe/* dependencies
