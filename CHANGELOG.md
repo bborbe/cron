@@ -8,6 +8,12 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.8.12
+
+- update Go dependencies
+- remove golang.org/x/lint tool import
+- add denis-tingaikin/go-header replace directive
+
 ## v1.8.11
 
 - Update dependencies to fix security vulnerabilities (go-git/v5 v5.17.2, buildkit v0.29.0)

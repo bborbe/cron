@@ -17,6 +17,5 @@ import (
 	_ "github.com/securego/gosec/v2/cmd/gosec"
 	_ "github.com/segmentio/golines"
 	_ "github.com/shoenig/go-modtool"
-	_ "golang.org/x/lint/golint"
 	_ "golang.org/x/vuln/cmd/govulncheck"
 )
