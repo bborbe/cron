@@ -8,6 +8,13 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.8.13
+
+- update Go to 1.26.2
+- update bborbe/* dependencies (errors, run, sentry, service, time)
+- update golang.org/x/sys, sentry-go, moby/buildkit, docker/cli
+- add replace directives for anthropic-sdk-go, diskfs, ginkgolinter
+
 ## v1.8.12
 
 - update Go dependencies
