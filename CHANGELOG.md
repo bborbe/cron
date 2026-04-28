@@ -8,6 +8,14 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.8.15
+
+- update bborbe/run to v1.9.21
+- update onsi/ginkgo/v2 to v2.28.2
+- update securego/gosec/v2 to v2.26.1
+- update golang.org/x/vuln to v1.3.0
+- update various indirect dependencies
+
 ## v1.8.14
 
 - Update bborbe/sentry, bborbe/service, bborbe/time dependencies
