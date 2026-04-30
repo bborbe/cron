@@ -1,11 +1,12 @@
 ---
-status: committing
+status: completed
 summary: Migrated tools.go to tools.env + Makefile @version pattern; go.mod reduced from 457 to 46 lines, replace block removed, all osv-scanner suppressions cleared.
 container: cron-002-migrate-tools-go
 dark-factory-version: dev
 created: "2026-04-30T21:23:50Z"
 queued: "2026-04-30T21:23:50Z"
 started: "2026-04-30T21:23:51Z"
+completed: "2026-04-30T21:33:26Z"
 ---
 
 # Migrate from tools.go to tools.env + Makefile @version pattern
