@@ -1,4 +1,6 @@
 
+include tools.env
+
 .PHONY: default
 default: precommit
 
@@ -14,10 +16,10 @@ ensure:
 
 .PHONY: format
 format:
-	find . -type f -name 'go.mod' -not -path './vendor/*' -exec go run -mod=mod github.com/shoenig/go-modtool -w fmt "{}" \;
+	find . -type f -name 'go.mod' -not -path './vendor/*' -exec go run github.com/shoenig/go-modtool@$(GO_MODTOOL_VERSION) -w fmt "{}" \;
 	find . -type f -name '*.go' -not -path './vendor/*' -exec gofmt -w "{}" +
-	go run -mod=mod github.com/incu6us/goimports-reviser/v3 -project-name github.com/bborbe/cron -format -excludes vendor ./...
-	find . -type d -name vendor -prune -o -type f -name '*.go' -print0 | xargs -0 -n 10 go run -mod=mod github.com/segmentio/golines --max-len=100 -w
+	go run github.com/incu6us/goimports-reviser/v3@$(GOIMPORTS_REVISER_VERSION) -project-name github.com/bborbe/cron -format -excludes vendor ./...
+	find . -type d -name vendor -prune -o -type f -name '*.go' -print0 | xargs -0 -n 10 go run github.com/segmentio/golines@$(GOLINES_VERSION) --max-len=100 -w
 
 .PHONY: generate
 generate:
@@ -36,7 +38,7 @@ check: lint vet errcheck vulncheck osv-scanner gosec trivy
 
 .PHONY: lint
 lint:
-	go run -mod=mod github.com/golangci/golangci-lint/v2/cmd/golangci-lint run --allow-parallel-runners --config .golangci.yml ./...
+	go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@$(GOLANGCI_LINT_VERSION) run --allow-parallel-runners --config .golangci.yml ./...
 
 .PHONY: vet
 vet:
@@ -44,28 +46,28 @@ vet:
 
 .PHONY: errcheck
 errcheck:
-	go run -mod=mod github.com/kisielk/errcheck -ignore '(Close|Write|Fprint)' $(shell go list -mod=mod ./... | grep -v /vendor/ | grep -v k8s/client)
+	go run github.com/kisielk/errcheck@$(ERRCHECK_VERSION) -ignore '(Close|Write|Fprint)' $(shell go list -mod=mod ./... | grep -v /vendor/ | grep -v k8s/client)
 
 .PHONY: vulncheck
 vulncheck:
-	@go run -mod=mod golang.org/x/vuln/cmd/govulncheck -format json $(shell go list -mod=mod ./... | grep -v /vendor/) 2>&1 | \
+	@go run golang.org/x/vuln/cmd/govulncheck@$(GOVULNCHECK_VERSION) -format json $(shell go list -mod=mod ./... | grep -v /vendor/) 2>&1 | \
 		jq -e 'select(.finding != null and .finding.osv != "GO-2026-4923" and .finding.osv != "GO-2026-4514" and .finding.osv != "GO-2022-0470" and .finding.osv != "GO-2026-4772" and .finding.osv != "GO-2026-4771")' > /dev/null 2>&1 && \
-		{ echo "Unexpected vulnerabilities found"; go run -mod=mod golang.org/x/vuln/cmd/govulncheck $(shell go list -mod=mod ./... | grep -v /vendor/); exit 1; } || \
+		{ echo "Unexpected vulnerabilities found"; go run golang.org/x/vuln/cmd/govulncheck@$(GOVULNCHECK_VERSION) $(shell go list -mod=mod ./... | grep -v /vendor/); exit 1; } || \
 		echo "No unignored vulnerabilities found"
 
 .PHONY: osv-scanner
 osv-scanner:
 	@if [ -f .osv-scanner.toml ]; then \
 		echo "Using .osv-scanner.toml"; \
-		go run github.com/google/osv-scanner/v2/cmd/osv-scanner@v2.3.1 --config .osv-scanner.toml --recursive .; \
+		go run github.com/google/osv-scanner/v2/cmd/osv-scanner@$(OSV_SCANNER_VERSION) --config .osv-scanner.toml --recursive .; \
 	else \
 		echo "No config found, running default scan"; \
-		go run github.com/google/osv-scanner/v2/cmd/osv-scanner@v2.3.1 --recursive .; \
+		go run github.com/google/osv-scanner/v2/cmd/osv-scanner@$(OSV_SCANNER_VERSION) --recursive .; \
 	fi
 
 .PHONY: gosec
 gosec:
-	go run -mod=mod github.com/securego/gosec/v2/cmd/gosec -exclude=G104 ./...
+	go run github.com/securego/gosec/v2/cmd/gosec@$(GOSEC_VERSION) -exclude=G104 ./...
 
 .PHONY: trivy
 trivy:
@@ -79,4 +81,4 @@ trivy:
 
 .PHONY: addlicense
 addlicense:
-	go run -mod=mod github.com/google/addlicense -c "Benjamin Borbe" -y $$(date +'%Y') -l bsd $$(find . -name "*.go" -not -path './vendor/*')
+	go run github.com/google/addlicense@$(ADDLICENSE_VERSION) -c "Benjamin Borbe" -y $$(date +'%Y') -l bsd $$(find . -name "*.go" -not -path './vendor/*')
