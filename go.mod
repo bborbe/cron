@@ -14,7 +14,7 @@ require (
 	github.com/bborbe/errors v1.5.11
 	github.com/bborbe/run v1.9.23
 	github.com/bborbe/sentry v1.9.16
-	github.com/bborbe/service v1.9.9
+	github.com/bborbe/service v1.9.10
 	github.com/bborbe/time v1.25.10
 	github.com/golang/glog v1.2.5
 	github.com/golangci/golangci-lint/v2 v2.11.4
