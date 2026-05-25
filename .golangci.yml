@@ -6,6 +6,7 @@ run:
 
 linters:
   enable:
+    # Core
     - govet
     - errcheck
     - staticcheck
@@ -13,21 +14,110 @@ linters:
     - revive
     - gosec
     - gocyclo
+    - depguard
     - dupl
 
+    # SRP & maintainability
+    - funlen
+    - gocognit
+    - nestif
+    - maintidx
+
+    # Readability & style
+    - errname
+    - unparam
+
+    # Safety / defensive coding
+    - bodyclose
+    - forcetypeassert
+    - asasalint
+    - prealloc
   settings:
+    depguard:
+      rules:
+        Main:
+          deny:
+            - pkg: "sigs.k8s.io/structured-merge-diff/v4"
+              desc: "use sigs.k8s.io/structured-merge-diff/v6 instead"
+            - pkg: "github.com/pkg/errors"
+              desc: "use github.com/bborbe/errors instead"
+            - pkg: "github.com/bborbe/argument"
+              desc: "use github.com/bborbe/argument/v2 instead"
+            - pkg: "golang.org/x/net/context"
+              desc: "use context from standard library instead"
+            - pkg: "golang.org/x/lint/golint"
+              desc: "deprecated, use revive or staticcheck instead"
+            - pkg: "io/ioutil"
+              desc: "deprecated since Go 1.16, use io and os packages instead"
+
+    funlen:
+      lines: 80
+      statements: 50
+
+    gocognit:
+      min-complexity: 20
+
+    nestif:
+      min-complexity: 4
+
+    maintidx:
+      min-maintainability-index: 20
+
     revive:
       rules:
-        - name: unused-parameter
-          disabled: true
-        - name: package-comments
-          disabled: true
-        - name: dot-imports
-          disabled: true
+        # Total-line limit matches the CLAUDE.md rule (file > 2000 lines = smell).
+        # skipBlankLines and skipComments are explicitly false so the count matches
+        # what `wc -l` reports and what readers see in editor scrollbars.
+        - name: file-length-limit
+          arguments:
+            - max: 2000
+              skipBlankLines: false
+              skipComments: false
+    errcheck:
+      exclude-functions:
+        - (io.Closer).Close
+        - (io.Writer).Write
+        - fmt.Fprint
+        - fmt.Fprintf
+        - fmt.Fprintln
 
-issues:
+    gosec:
+      excludes:
+        - G104
+
   exclusions:
+    presets:
+      - comments
+      - std-error-handling
+      - common-false-positives
     rules:
       - linters:
           - staticcheck
-        text: "SA1019" # allow deprecated in specific cases
+        text: "SA1019"
+      - linters:
+          - revive
+        path: "_test\\.go$"
+        text: "dot-imports"
+      - linters:
+          - revive
+        text: "unused-parameter"
+      - linters:
+          - revive
+        text: "exported"
+      - linters:
+          - dupl
+        path: "_test\\.go$"
+      - linters:
+          - errcheck
+        path: "_test\\.go$"
+      - linters:
+          - unparam
+        path: "_test\\.go$"
+      - linters:
+          - gosec
+        path: "_test\\.go$"
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
