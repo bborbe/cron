@@ -8,6 +8,14 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.8.18
+
+- bump go to 1.26.4
+- upgrade bborbe/* and stdlib deps
+- expand golangci.yml linter config
+- drop standalone errcheck/gosec from Makefile
+- use stdlib errors in tests
+
 ## v1.8.17
 
 - bump go 1.26.2 → 1.26.3
