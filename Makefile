@@ -28,10 +28,17 @@ generate:
 	echo "package mocks" > mocks/mocks.go
 	go generate -mod=mod ./...
 
+# -race=true catches data races but flakes on some CI runners (rare SIGSEGV
+# during gexec.Build in cmd/*-style binary smoke tests). Default off; opt in
+# via ENABLE_RACE=true for nightly/manual hardening runs.
+TESTFLAGS_RACE = -race=false
+ifdef ENABLE_RACE
+	TESTFLAGS_RACE = -race=true
+endif
+
 .PHONY: test
 test:
-	# -race
-	go test -mod=mod -p=$${GO_TEST_PARALLEL:-1} -cover $(shell go list -mod=mod ./... | grep -v /vendor/)
+	go test -mod=mod -p=$${GO_TEST_PARALLEL:-1} -cover $(TESTFLAGS_RACE) $(shell go list -mod=mod ./... | grep -v /vendor/)
 
 .PHONY: check
 check: lint vet vulncheck osv-scanner trivy
@@ -44,12 +51,26 @@ lint:
 vet:
 	go vet -mod=mod $(shell go list -mod=mod ./... | grep -v /vendor/)
 
+VULNCHECK_IGNORE ?= GO-2026-4923 GO-2026-4514 GO-2022-0470 GO-2026-4772 GO-2026-4771
+
 .PHONY: vulncheck
 vulncheck:
-	@go run golang.org/x/vuln/cmd/govulncheck@$(GOVULNCHECK_VERSION) -format json $(shell go list -mod=mod ./... | grep -v /vendor/) 2>&1 | \
-		jq -e 'select(.finding != null and .finding.osv != "GO-2026-4923" and .finding.osv != "GO-2026-4514" and .finding.osv != "GO-2022-0470" and .finding.osv != "GO-2026-4772" and .finding.osv != "GO-2026-4771")' > /dev/null 2>&1 && \
-		{ echo "Unexpected vulnerabilities found"; go run golang.org/x/vuln/cmd/govulncheck@$(GOVULNCHECK_VERSION) $(shell go list -mod=mod ./... | grep -v /vendor/); exit 1; } || \
-		echo "No unignored vulnerabilities found"
+	@PKGS="$(shell go list -mod=mod ./... | grep -v /vendor/)"; \
+	IGNORE_JSON=$$(printf '%s\n' $(VULNCHECK_IGNORE) | jq -R . | jq -s .); \
+	REMAIN=$$(go run golang.org/x/vuln/cmd/govulncheck@$(GOVULNCHECK_VERSION) -format json $$PKGS 2>/dev/null | \
+		jq -rs --argjson ignore "$$IGNORE_JSON" \
+			'(map(select(.osv != null)) | map({key: .osv.id, value: (.osv.summary // "")}) | from_entries) as $$sum | \
+			 map(select(.finding != null) | .finding) | \
+			 map(select(.osv as $$o | $$ignore | index($$o) | not)) | \
+			 map("\(.osv)\t\(.trace[-1].module)@\(.trace[-1].version) -> \(.fixed_version)\t\($$sum[.osv] // "")") | \
+			 unique | .[]'); \
+	if [ -n "$$REMAIN" ]; then \
+		echo "Unexpected vulnerabilities (ignored: $(VULNCHECK_IGNORE)):"; \
+		printf '%s\n' "$$REMAIN" | column -t -s "$$(printf '\t')"; \
+		exit 1; \
+	else \
+		echo "No unignored vulnerabilities found"; \
+	fi
 
 .PHONY: osv-scanner
 osv-scanner:
