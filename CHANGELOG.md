@@ -8,6 +8,13 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.8.19
+
+- Bump bborbe/errors, run, sentry, service, time and other deps
+- Update ginkgo/gomega, sentry-go, golang.org/x packages
+- Make vulncheck failures surface real govulncheck errors
+- Add TESTFLAGS_RACE toggle for opt-in race detection
+
 ## v1.8.18
 
 - bump go to 1.26.4
