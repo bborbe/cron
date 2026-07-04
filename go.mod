@@ -4,10 +4,10 @@ go 1.26.4
 
 require (
 	github.com/bborbe/errors v1.5.15
-	github.com/bborbe/run v1.9.29
+	github.com/bborbe/run v1.9.30
 	github.com/bborbe/sentry v1.9.20
 	github.com/bborbe/service v1.10.3
-	github.com/bborbe/time v1.27.3
+	github.com/bborbe/time v1.27.4
 	github.com/golang/glog v1.2.5
 	github.com/onsi/ginkgo/v2 v2.32.0
 	github.com/onsi/gomega v1.42.1
@@ -20,8 +20,8 @@ require (
 	github.com/bborbe/argument/v2 v2.12.29 // indirect
 	github.com/bborbe/collection v1.20.15 // indirect
 	github.com/bborbe/math v1.3.11 // indirect
-	github.com/bborbe/parse v1.10.13 // indirect
-	github.com/bborbe/validation v1.4.14 // indirect
+	github.com/bborbe/parse v1.10.15 // indirect
+	github.com/bborbe/validation v1.4.15 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/getsentry/sentry-go v0.47.0 // indirect

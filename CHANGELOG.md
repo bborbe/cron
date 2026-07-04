@@ -8,6 +8,12 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.8.20
+
+- Bump github.com/bborbe/run to v1.9.30
+- Bump github.com/bborbe/time to v1.27.4
+- Bump indirect deps: bborbe/parse v1.10.15, bborbe/validation v1.4.15
+
 ## v1.8.19
 
 - Bump bborbe/errors, run, sentry, service, time and other deps
