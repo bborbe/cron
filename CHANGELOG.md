@@ -10,7 +10,7 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
-- Bump `golang.org/x/text` to v0.39.0 (CVE-2026-56852)
+- fix: Bump `golang.org/x/text` to v0.39.0 (CVE-2026-56852)
 
 ## v1.8.21
 
