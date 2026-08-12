@@ -10,7 +10,7 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
-- Update Go to 1.26.5 and update dependencies
+- chore: Update Go to 1.26.5 and update dependencies
 
 ## v1.8.22
 
