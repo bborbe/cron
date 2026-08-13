@@ -6,9 +6,9 @@ package cron
 
 import (
 	"context"
-	"time"
 
 	"github.com/bborbe/run"
+	libtime "github.com/bborbe/time"
 )
 
 // WrapWithMetrics wraps a runnable with Prometheus metrics collection.
@@ -16,11 +16,15 @@ import (
 func WrapWithMetrics(name string, fn run.Runnable) run.Runnable {
 	metrics := NewMetrics()
 	return run.Func(func(ctx context.Context) error {
-		start := time.Now()
+		// Both the start and the elapsed calculation must read the same
+		// clock. Converting only one of them silently mixes libtime's
+		// swappable clock with the real one and yields garbage durations
+		// under a fake clock.
+		start := libtime.Now()
 		metrics.IncreaseStarted(name)
 
 		err := fn.Run(ctx)
-		duration := time.Since(start)
+		duration := libtime.Now().Sub(start)
 		metrics.ObserveDuration(name, duration.Seconds())
 
 		if err != nil {
