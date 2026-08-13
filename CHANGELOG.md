@@ -8,6 +8,11 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## Unreleased
+
+- fix: WrapWithMetrics measures duration with the injectable libtime clock instead of time.Now
+- test: add a fake-clock regression spec pinning the observed duration
+
 ## v1.8.23
 
 - chore: Update Go to 1.26.5 and update dependencies

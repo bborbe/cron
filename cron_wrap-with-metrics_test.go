@@ -7,10 +7,13 @@ package cron_test
 import (
 	"context"
 	"errors"
+	stdtime "time"
 
 	"github.com/bborbe/run"
+	libtime "github.com/bborbe/time"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/bborbe/cron"
 )
@@ -78,3 +81,53 @@ var _ = Describe("WrapWithMetrics", func() {
 		})
 	})
 })
+
+var _ = Describe("WrapWithMetrics duration clock", func() {
+	var ctx context.Context
+	var originalNow func() stdtime.Time
+
+	BeforeEach(func() {
+		ctx = context.Background()
+		originalNow = libtime.Now
+	})
+	AfterEach(func() {
+		libtime.Now = originalNow
+	})
+
+	// Regression: start and elapsed must read the SAME clock. If one of the
+	// two call sites still used the real clock, the observed duration would be
+	// ~0 instead of the 42s the fake clock advances by.
+	It("measures the duration with the injected clock", func() {
+		current := stdtime.Date(2026, 8, 13, 12, 0, 0, 0, stdtime.UTC)
+		libtime.Now = func() stdtime.Time { return current }
+
+		action := run.Func(func(ctx context.Context) error {
+			current = current.Add(42 * stdtime.Second)
+			return nil
+		})
+
+		before := histogramSum("clock-job")
+		Expect(cron.WrapWithMetrics("clock-job", action).Run(ctx)).To(BeNil())
+		Expect(histogramSum("clock-job") - before).To(BeNumerically("~", 42.0, 0.001))
+	})
+})
+
+// histogramSum reads the cron_job_duration_seconds sum for the given job name
+// straight off the default registry.
+func histogramSum(name string) float64 {
+	families, err := prometheus.DefaultGatherer.Gather()
+	Expect(err).To(BeNil())
+	for _, family := range families {
+		if family.GetName() != "cron_job_duration_seconds" {
+			continue
+		}
+		for _, metric := range family.GetMetric() {
+			for _, label := range metric.GetLabel() {
+				if label.GetName() == "name" && label.GetValue() == name {
+					return metric.GetHistogram().GetSampleSum()
+				}
+			}
+		}
+	}
+	return 0
+}
