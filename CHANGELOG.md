@@ -11,7 +11,7 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
 - fix: WrapWithMetrics measures duration with the injectable libtime clock instead of time.Now
-- add a fake-clock regression spec pinning the observed duration
+- test: add a fake-clock regression spec pinning the observed duration
 
 ## v1.8.23
 
