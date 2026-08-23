@@ -8,7 +8,7 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
-## Unreleased
+## v1.8.27
 
 - chore: update Go to 1.27.0 and dependencies (bborbe/errors v1.5.20, bborbe/run v1.9.37, bborbe/sentry v1.9.26, bborbe/service v1.10.9, bborbe/time v1.27.10)
 
