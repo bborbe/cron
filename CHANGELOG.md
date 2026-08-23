@@ -10,7 +10,7 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
-- chore: update Go to 1.27.0 and update dependencies
+- chore: update Go to 1.27.0 and dependencies (bborbe/errors v1.5.20, bborbe/run v1.9.37, bborbe/sentry v1.9.26, bborbe/service v1.10.9, bborbe/time v1.27.10)
 
 ## v1.8.26
 
