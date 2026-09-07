@@ -8,6 +8,10 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## Unreleased
+
+- chore: update github.com/bborbe/errors to v1.6.1, github.com/bborbe/service to v1.10.13, github.com/bborbe/time to v1.27.14
+
 ## v1.8.31
 
 - chore: update Go to 1.27.1
