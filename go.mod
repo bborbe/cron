@@ -44,6 +44,4 @@ require (
 	google.golang.org/protobuf v1.36.12 // indirect
 )
 
-exclude (
-	cloud.google.com/go v0.26.0
-)
+exclude cloud.google.com/go v0.26.0
