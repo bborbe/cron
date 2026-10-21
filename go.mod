@@ -1,11 +1,11 @@
 module github.com/bborbe/cron
 
-go 1.27.2
+go 1.27.3
 
 require (
 	github.com/bborbe/errors v1.6.3
 	github.com/bborbe/run v1.11.2
-	github.com/bborbe/sentry v1.10.4
+	github.com/bborbe/sentry v1.10.5
 	github.com/bborbe/service v1.11.0
 	github.com/bborbe/time v1.27.17
 	github.com/golang/glog v1.2.5
