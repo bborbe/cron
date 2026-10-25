@@ -65,3 +65,5 @@ The sampler reads only `get pods` and `get resourcequota`, so it is safe to run 
 production for the length of the measurement. It samples both clusters on every tick, so
 the two rows sharing a timestamp describe the same instant rather than two instants a
 network round trip apart.
+
+Revision: 20261025T141833Z — re-run marker so the watcher mints a fresh pr-review task.
