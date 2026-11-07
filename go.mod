@@ -4,7 +4,7 @@ go 1.27.3
 
 require (
 	github.com/bborbe/errors v1.6.6
-	github.com/bborbe/run v1.11.9
+	github.com/bborbe/run v1.11.10
 	github.com/bborbe/sentry v1.10.7
 	github.com/bborbe/service v1.11.2
 	github.com/bborbe/time v1.27.25
@@ -18,7 +18,7 @@ require (
 require (
 	github.com/Masterminds/semver/v3 v3.5.0 // indirect
 	github.com/bborbe/argument/v2 v2.13.9 // indirect
-	github.com/bborbe/collection v1.21.5 // indirect
+	github.com/bborbe/collection v1.21.6 // indirect
 	github.com/bborbe/math v1.4.18 // indirect
 	github.com/bborbe/parse v1.12.5 // indirect
 	github.com/bborbe/validation v1.5.8 // indirect
