@@ -1,13 +1,13 @@
 module github.com/bborbe/cron
 
-go 1.27.3
+go 1.27.4
 
 require (
 	github.com/bborbe/errors v1.6.6
-	github.com/bborbe/run v1.11.10
+	github.com/bborbe/run v1.11.11
 	github.com/bborbe/sentry v1.10.7
-	github.com/bborbe/service v1.11.2
-	github.com/bborbe/time v1.27.26
+	github.com/bborbe/service v1.11.3
+	github.com/bborbe/time v1.27.28
 	github.com/golang/glog v1.2.5
 	github.com/onsi/ginkgo/v2 v2.34.0
 	github.com/onsi/gomega v1.44.0
@@ -17,10 +17,10 @@ require (
 
 require (
 	github.com/Masterminds/semver/v3 v3.5.0 // indirect
-	github.com/bborbe/argument/v2 v2.13.9 // indirect
-	github.com/bborbe/collection v1.21.6 // indirect
-	github.com/bborbe/math v1.4.18 // indirect
-	github.com/bborbe/parse v1.12.5 // indirect
+	github.com/bborbe/argument/v2 v2.13.10 // indirect
+	github.com/bborbe/collection v1.21.7 // indirect
+	github.com/bborbe/math v1.4.19 // indirect
+	github.com/bborbe/parse v1.12.7 // indirect
 	github.com/bborbe/validation v1.5.9 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
@@ -28,7 +28,7 @@ require (
 	github.com/go-logr/logr v1.4.4 // indirect
 	github.com/go-task/slim-sprig/v3 v3.0.0 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
-	github.com/google/pprof v0.0.0-20261105003125-4bf881d7fb0b // indirect
+	github.com/google/pprof v0.0.0-20261110164715-8bb1ee682bd8 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/pandatix/go-abnf v0.5.5 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
@@ -36,7 +36,7 @@ require (
 	github.com/prometheus/common v0.73.1 // indirect
 	github.com/prometheus/procfs v0.23.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.6 // indirect
-	golang.org/x/mod v0.42.0 // indirect
+	golang.org/x/mod v0.43.0 // indirect
 	golang.org/x/net v0.62.0 // indirect
 	golang.org/x/sync v0.25.0 // indirect
 	golang.org/x/sys v0.50.0 // indirect
