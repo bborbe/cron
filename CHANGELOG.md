@@ -11,6 +11,7 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
 - chore: remove stale vulnerability ignore IDs that no longer apply (govulncheck, trivy)
+- fix: install Trivy from a pinned, checksum-verified release tarball instead of the apt-repo route that needed the removed `apt-key` helper
 
 ## v1.9.11
 
